@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+History Lesson User Directory
+{% endblock %}
+
+{% block content %}
+
+<p>
+    <a href="/users/{{ user.id }}" class="btn btn-primary">
+      Return Home
+    </a>
+</p>
+
+<h1>Browse Users</h1>
+
+<div class="col-sm-6">
+    <ul class="list-group" id="lessons">
+        {% for user in users %}
+        <li class="list-group-item"><a href="/users/{{ user.id }}" class="user-link"/>
+            <h3>{{user.username}}</h3>
+                <ul>
+                    <li>School: {{user.school}}</li>
+                    <li>Grade: {{user.grade}}</li>
+                    <li>Location: {{user.location}}</li>
+                </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+{% endblock %}

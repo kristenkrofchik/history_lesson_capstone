@@ -6,11 +6,30 @@
 
 {% block content %}
 
-<h1>Welcome {{user.username}}!</h1>
+  {% if session['id'] == user.id %}
+    <h1>Welcome {{user.username}}!</h1>
 
-<p>
-    <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
-      Your Lesson Plan List
+    <p> 
+      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
+        Your Lesson Plan List
+      </a>
+    </p>
+  {% endif %}
+
+  {% if session['id'] != user.id %}
+    <h1>{{user.username}}</h1>
+
+    <p>
+      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
+      {{user.username}} Lesson Plan List
+      </a>
+    </p>
+  {% endif %}
+
+
+  <p>
+    <a href="/users" class="btn btn-primary">
+      Browse Users
     </a>
   </p>
 

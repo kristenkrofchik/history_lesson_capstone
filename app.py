@@ -107,9 +107,22 @@ def logout_user():
     session.pop("id")
     return redirect("/login")
 
-#@app.route('/users')
-#def show_users():
-    #"""List all users"""
+@app.route('/users')
+def show_users():
+    """Browse all users, search users"""
+    """Have to add authentication so if not that user you can see profile but not edit it"""
+    #search = request.args.get('q')
+
+    #if not search:
+    #   users = User.query.all()
+    #else:
+    #    users = User.query.filter(User.username.like(f"%{search}%")).all()
+    user_id = session['id']
+    user = User.query.get_or_404(user_id)
+
+    users = User.query.all()
+
+    return render_template('users/all.html', user=user, users=users)
 
 
 @app.route(f"/users/<int:user_id>")
@@ -120,6 +133,7 @@ def show_user_home(user_id):
     user = User.query.get_or_404(user_id)
 
     return render_template('users/home.html', user=user)
+
 
 @app.route(f"/users/<int:user_id>/lessons")
 def show_user_lessons(user_id):
@@ -135,6 +149,7 @@ def show_user_lessons(user_id):
                 .all())
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
+
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
