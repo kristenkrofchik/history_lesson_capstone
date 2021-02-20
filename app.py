@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 
-from models import connect_db, db, Follows, User, Lesson, Resource
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
+from models import db, connect_db, Follows, User, Lesson, Resource
 
 app = Flask(__name__)
 
@@ -15,6 +15,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
+db.create_all()
 
 @app.route('/')
 def homepage():
@@ -22,11 +23,22 @@ def homepage():
     return redirect('/register')
 
 @app.route('/register', methods=['GET'])
-def show_register():
+def show_register_form():
     """Show Register Form"""
 
-    if "username" in session:
-        return redirect(f"/users/{session['username']}")
+    if "id" in session:
+        return redirect(f"/users/{session['id']}")
+
+    form = RegisterForm()
+
+    return render_template("register.html", form=form)
+    
+@app.route('/register', methods=['POST'])
+def handle_register_form():
+    """Handle Register Form"""
+
+    if "id" in session:
+        return redirect(f"/users/{session['id']}")
 
     form = RegisterForm()
 
@@ -43,9 +55,63 @@ def show_register():
         user = User.signup(username, password, email, first_name, last_name, school, grade, location)
 
         db.session.commit()
-        session['username'] = user.username
+        session['id'] = user.id
 
-        return redirect(f"/users/{user.username}")
+        return redirect(f"/users/{user.id}")
 
     else:
         return render_template("register.html", form=form)
+
+@app.route('/login', methods=['GET'])
+def show_login_form():
+    """Show Login Form"""
+
+    if "id" in session:
+        return redirect(f"/users/{session['id']}")
+
+    form = LoginForm()
+
+    return render_template("login.html", form=form)
+
+@app.route('/login', methods=['POST'])
+def handle_login_form():
+    """Handle Login Form"""
+    if "id" in session:
+        return redirect(f"/users/{session['id']}")
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        user = User.authenticate(username, password)  
+        
+        if user:
+            session['id'] = user.id
+            return redirect(f"/users/{user.id}")
+        else:
+            form.username.errors = ["The username or password you entered is incorrect."]
+            return render_template("login.html", form=form)
+
+    return render_template("login.html", form=form)
+
+@app.route("/logout")
+def logout_user():
+    """Logout user."""
+
+    session.pop("id")
+    return redirect("/login")
+
+#@app.route('/users')
+#def show_users():
+    #"""List all users"""
+
+
+#@app.route(f"/users/<int:user_id>")
+#def show_user_home(user_id):
+    #"""Show Logged In User Homepage"""
+    #user = User.query.get_or_404(user_id)
+
+    #return render_template('users/home.html', user=user)
+

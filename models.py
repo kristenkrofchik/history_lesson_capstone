@@ -50,7 +50,7 @@ class User(db.Model):
         secondaryjoin=(Follows.user_following_id == id)
     )
 
-    #lessons = db.relationship('Lesson')
+    lessons = db.relationship('Lesson')
 
     @classmethod
     def signup(cls, username, password, email, first_name, last_name, school, grade, location):
@@ -112,7 +112,7 @@ class Lesson(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
-    user = db.relationship('User', secondary='users_lessons', backref='lessons')
+    #user = db.relationship('User', secondary='users_lessons', backref='lessons')
 
     #resources = db.relationship('Resource')
 
@@ -160,6 +160,7 @@ def connect_db(app):
 
     db.app = app
     db.init_app(app)
+
 
 
 
