@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
+from werkzeug.exceptions import Unauthorized
 
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, AddLessonForm
 from models import db, connect_db, Follows, User, Lesson, Resource
+
 
 app = Flask(__name__)
 
@@ -16,6 +18,8 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 db.create_all()
+
+
 
 @app.route('/')
 def homepage():
@@ -112,12 +116,73 @@ def logout_user():
 def show_user_home(user_id):
     """Show Logged In User Homepage"""
     """Homepage will also need: user calendar,
-    search for other users, show user profile info, logout, reccomended resoucres?"""
+    search for other users, show user profile info (template), logout, reccomended resoucres?"""
     user = User.query.get_or_404(user_id)
 
     return render_template('users/home.html', user=user)
 
 @app.route(f"/users/<int:user_id>/lessons")
 def show_user_lessons(user_id):
-    """Show a list of user lessons (seperate from home which will show all #scheduled lessons on a calendar. this will be a plain list of lessons)"""
+    """Show a list of user lessons (seperate from user home which will show all scheduled lessons on a calendar. this will be a list of lessons). page is only accessible to the logged in user."""
+
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    lessons = (Lesson.query.filter(Lesson.user_id == user_id)
+                .order_by(Lesson.timestamp.desc())
+                .all())
     
+    return render_template('users/lessons.html', user=user, lessons=lessons)
+
+@app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
+def show_add_lesson_form(user_id):
+    """show form for adding a lesson plan"""
+    
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = AddLessonForm()
+
+    return render_template("lessons/new.html", form=form)
+
+
+@app.route(f"/users/<int:user_id>/lessons/new", methods=['POST'])
+def handle_add_lesson_form(user_id):
+    """Submit New Lesson plan and redirect to user home"""
+
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = AddLessonForm()
+
+    if form.validate_on_submit():
+        title = form.title.data
+        summary = form.summary.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+
+        lesson = Lesson(
+            title=title,
+            summary=summary,
+            start_date=start_date,
+            end_date=end_date
+        )
+
+        db.session.add(lesson)
+        db.session.commit()
+
+        return redirect(f"/users/{user.id}")
+
+    else:
+        return render_template("lessons/new.html", form=form)
+
+
+
+
+

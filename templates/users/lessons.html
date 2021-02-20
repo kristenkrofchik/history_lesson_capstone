@@ -6,55 +6,31 @@
 
 {% block content %}
 
-<h1>Welcome {{user.username}}!</h1>
-
 <p>
-    <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
-      Your Lesson Plan List
+    <a href="/users/{{ user.id }}" class="btn btn-primary">
+      Return Home
     </a>
-  </p>
+</p>
 
+<h1>Lesson Plans</h1>
 
-{% endblock %}
-
-
-
-
-
-{% extends '<base href="">.html' %}
-{% block user_details %}
-  <div class="col-sm-6">
-    <ul class="list-group" id="messages">
-
-      {% for message in messages %}
-
-        <li class="list-group-item">
-          <a href="/messages/{{ message.id }}" class="message-link"/>
-
-          <a href="/users/{{ user.id }}">
-            <img src="{{ user.image_url }}" alt="user image" class="timeline-image">
-          </a>
-
-          <div class="message-area">
-            <a href="/users/{{ user.id }}">@{{ user.username }}</a>
-            <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
-            <p>{{ message.text }}</p>
-          </div>
-          {% if g.user.id != message.user_id %}
-          <form method="POST" action="/messages/{{ message.id }}/like" class="messages-like">
-            <button class="
-              btn
-              btn-sm
-              {{'btn-primary' if message.id in likes else 'btn-secondary'}}"
-            >
-              <i class="fa fa-thumbs-up"></i>
-            </button>
-          </form>
-          {% endif %}
+<div class="col-sm-6">
+    <ul class="list-group" id="lessons">
+        {% for lesson in lessons %}
+        <li class="list-group-item"><a href="/lessons/{{ lesson.id }}" class="lesson-link"/>
+            <h3>{{lesson.title}}</h3>
+                <ul>
+                    <li>{{lesson.summary}}</li>
+                    <li>{{lesson.start_date}}</li>
+                    <li>{{lesson.end_date}}</li>
+                </ul>
         </li>
-
-      {% endfor %}
-
     </ul>
-  </div>
+</div>
+
+
+
 {% endblock %}
+
+
+

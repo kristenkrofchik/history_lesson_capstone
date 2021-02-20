@@ -9,10 +9,10 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">Flask Feedback</a>
+  <a class="navbar-brand" href="/">History Lesson, Lesson Planning with Primary Sources</a>
   <ul class="navbar-nav">
     <li class="nav-item">
-      {% if 'username' in session %}
+      {% if 'id' in session %}
       <a class="nav-link" href="/logout">Logout</a>
       {% else %}
       <a class="nav-link" href="/login">Login</a>

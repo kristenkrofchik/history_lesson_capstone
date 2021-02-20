@@ -1,4 +1,4 @@
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField
 from wtforms.validators import InputRequired, Length, NumberRange, Email, Optional
 from flask_wtf import FlaskForm
 
@@ -48,4 +48,22 @@ class LoginForm(FlaskForm):
     password = PasswordField(
         "Password",
         validators=[InputRequired(), Length(min=6, max=35)],
+    )
+
+class AddLessonForm(FlaskForm):
+    """Add New Lesson Plan, for Logged in User"""
+    title = StringField(
+        "Lesson Name/Title",
+        validators=[InputRequired(), Length(min=1, max=75)],
+    )
+    summary = TextAreaField(
+        "Summary",
+    )
+    start_date = DateTimeField(
+        "When will thie Lesson begin?",
+        validators=[InputRequired()],
+    )
+    end_date = DateTimeField(
+        "When will this lesson be completed?",
+        validators=[InputRequired()],
     )
