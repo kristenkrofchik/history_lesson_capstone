@@ -108,10 +108,16 @@ def logout_user():
     #"""List all users"""
 
 
-#@app.route(f"/users/<int:user_id>")
-#def show_user_home(user_id):
-    #"""Show Logged In User Homepage"""
-    #user = User.query.get_or_404(user_id)
+@app.route(f"/users/<int:user_id>")
+def show_user_home(user_id):
+    """Show Logged In User Homepage"""
+    """Homepage will also need: user calendar,
+    search for other users, show user profile info, logout, reccomended resoucres?"""
+    user = User.query.get_or_404(user_id)
 
-    #return render_template('users/home.html', user=user)
+    return render_template('users/home.html', user=user)
 
+@app.route(f"/users/<int:user_id>/lessons")
+def show_user_lessons(user_id):
+    """Show a list of user lessons (seperate from home which will show all #scheduled lessons on a calendar. this will be a plain list of lessons)"""
+    
