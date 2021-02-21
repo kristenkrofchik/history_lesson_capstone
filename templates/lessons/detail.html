@@ -18,6 +18,16 @@
         <li>{{ lesson.end_date }}</li>
     </ul>
 
+    <p>
+        <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary" methods=>
+          Edit Lesson
+        </a>
+    </p>
+    
+    <form method="POST" action="/lessons/{{ lesson.id }}/delete">
+        <button class="btn btn-danger">Delete</button>
+    </form>
+
 
     <p>
         <a href="/users/{{ user.id }}/lessons"" class="btn btn-primary">
