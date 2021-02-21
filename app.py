@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
-from forms import RegisterForm, LoginForm, AddLessonForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm
 from models import db, connect_db, Follows, User, Lesson, Resource
 
 
@@ -16,9 +16,9 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
 
+
 connect_db(app)
 db.create_all()
-
 
 
 @app.route('/')
@@ -111,12 +111,8 @@ def logout_user():
 def show_users():
     """Browse all users, search users"""
     """Have to add authentication so if not that user you can see profile but not edit it"""
-    #search = request.args.get('q')
+    """add search function for users"""
 
-    #if not search:
-    #   users = User.query.all()
-    #else:
-    #    users = User.query.filter(User.username.like(f"%{search}%")).all()
     user_id = session['id']
     user = User.query.get_or_404(user_id)
 
@@ -196,6 +192,28 @@ def handle_add_lesson_form(user_id):
 
     else:
         return render_template("lessons/new.html", form=form)
+
+@app.route(f"/lessons/<int:lesson_id>/edit", methods=['GET'])
+def show_edit_lesson_form(lesson_id):
+    """Show form to edit a lesson plan"""
+    lesson = Lesson.query.get(lesson_id)
+
+    if "id" not in session or lesson.user.id != session['id']:
+        raise Unauthorized()
+
+    form = EditLessonForm()
+
+    return redirect('/lessons/edit.html', lesson=lesson, form=form)
+
+
+@app.route(f"/lessons/<int:lesson_id>/edit", methods=['POST'])
+def handle_edit_lesson_form(lesson_id):
+    """Handle submit of form to edit a lesson plan, redirect to the main page for the lesson"""
+    lesson = Lesson.query.get(lesson_id)
+
+    if "id" not in session or lesson.user.id != session['id']:
+        raise Unauthorized()
+
 
 
 

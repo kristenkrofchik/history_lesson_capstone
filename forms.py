@@ -1,4 +1,4 @@
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, SelectField
 from wtforms.validators import InputRequired, Length, NumberRange, Email, Optional
 from flask_wtf import FlaskForm
 
@@ -19,23 +19,23 @@ class RegisterForm(FlaskForm):
         validators=[InputRequired(), Email(), Length(max=50)],
     )
     first_name = StringField(
-        "First Name",
+        "First Name (Optional)",
         validators=[Length(max=30)],
     )
     last_name = StringField(
-        "Last Name",
+        "Last Name (Optional)",
         validators=[Length(max=30)],
     )
     school = StringField(
-        "School Name",
+        "School Name (Optional)",
         validators=[Length(max=40)]
     )
     grade = StringField(
-        "Grade",
+        "Grade (Optional)",
         validators=[Length(max=15)]
     )
     location = StringField(
-        "Location",
+        "Location (Optional)",
         validators=[Length(max=30)]
     )
 
@@ -57,7 +57,7 @@ class AddLessonForm(FlaskForm):
         validators=[InputRequired(), Length(min=1, max=75)],
     )
     summary = TextAreaField(
-        "Summary",
+        "Summary (Optional)",
     )
     start_date = DateTimeField(
         "When will thie Lesson begin?",
@@ -67,3 +67,27 @@ class AddLessonForm(FlaskForm):
         "When will this lesson be completed?",
         validators=[InputRequired()],
     )
+
+class EditLessonForm(FlaskForm):
+    """Edit lesson plan, for logged in user"""
+    title = StringField(
+        "Lesson Name/Title",
+        validators=[InputRequired(), Length(min=1, max=75)],
+    )
+    summary = TextAreaField(
+        "Summary (Optional)",
+    )
+    start_date = DateTimeField(
+        "When will thie Lesson begin?",
+        validators=[InputRequired()],
+    )
+    end_date = DateTimeField(
+        "When will this lesson be completed?",
+        validators=[InputRequired()],
+    )
+
+
+#class UserSearchForm(FlaskForm):
+#    """Search users by username, last_name, location, grade, school"""
+#    choices = [('Username', 'Username'),
+#                ('Last Name')]
