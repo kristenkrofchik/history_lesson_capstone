@@ -14,6 +14,12 @@
         Your Lesson Plan List
       </a>
     </p>
+
+    <p> 
+      <a href="/users/{{ user.id }}/edit" class="btn btn-primary">
+        Edit Profile
+      </a>
+    </p>
   {% endif %}
 
   {% if session['id'] != user.id %}

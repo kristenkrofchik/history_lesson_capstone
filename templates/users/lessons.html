@@ -25,15 +25,13 @@
                     <li>{{lesson.end_date}}</li>
                 </ul>
                 <p>
-                    <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary">
+                    <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary" methods=>
                       Edit Lesson
                     </a>
                 </p>
-                <p>
-                    <a href="/lessons/{{ lesson.id }}/delete" class="btn btn-primary">
-                      Delete Lesson
-                    </a>
-                </p>
+                <form method="POST" action="/lessons/{{ lesson.id }}/delete">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
         </li>
         {% endfor %}
     </ul>

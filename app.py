@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
-from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
 from models import db, connect_db, Follows, User, Lesson, Resource
 
 
@@ -130,6 +130,44 @@ def show_user_home(user_id):
 
     return render_template('users/home.html', user=user)
 
+@app.route(f"/users/<int:user_id>/edit", methods=['GET'])
+def show_edit_user_form(user_id):
+    """Show form to edit user profile info"""
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = EditUserForm(obj=user)
+
+    return render_template("users/edit.html", user=user, form=form)
+
+
+@app.route(f"/users/<int:user_id>/edit", methods=['POST'])
+def handle_edit_user_form(user_id):
+    """Handle form to edit user profile info, redirect to user home"""
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = EditUserForm(obj=user)
+
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        user.first_name = form.first_name.data
+        user.last_name = form.last_name.data
+        user.school = form.school.data
+        user.grade = form.grade.data
+        user.location = form.location.data
+
+        db.session.commit()
+
+        return redirect(f"/users/{user.id}")
+
+    return render_template("users/edit.html", form=form, user=user)
+
 
 @app.route(f"/users/<int:user_id>/lessons")
 def show_user_lessons(user_id):
@@ -237,6 +275,21 @@ def handle_edit_lesson_form(lesson_id):
         return redirect(f"/lessons/{lesson.id}")
 
     return render_template("lessons/edit.html", form=form, lesson=lesson)
+
+@app.route("/lessons/<int:lesson_id>/delete", methods=["POST"])
+def delete_lesson(lesson_id):
+    """Delete individual lesson."""
+
+    lesson = Lesson.query.get(lesson_id)
+    user = lesson.user
+    
+    if "id" not in session or lesson.user_id != session['id']:
+        raise Unauthorized()
+
+    db.session.delete(lesson)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}/lessons")
 
 
 

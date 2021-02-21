@@ -51,6 +51,37 @@ class LoginForm(FlaskForm):
         validators=[InputRequired(), Length(min=6, max=35)],
     )
 
+class EditUserForm(FlaskForm):
+    """Edit User Profile Form"""
+    username = StringField(
+        "Username",
+        validators=[InputRequired(), Length(min=1, max=25)],
+    )
+    email = StringField(
+        "Email",
+        validators=[InputRequired(), Email(), Length(max=50)],
+    )
+    first_name = StringField(
+        "First Name (Optional)",
+        validators=[Length(max=30)],
+    )
+    last_name = StringField(
+        "Last Name (Optional)",
+        validators=[Length(max=30)],
+    )
+    school = StringField(
+        "School Name (Optional)",
+        validators=[Length(max=40)]
+    )
+    grade = StringField(
+        "Grade (Optional)",
+        validators=[Length(max=15)]
+    )
+    location = StringField(
+        "Location (Optional)",
+        validators=[Length(max=30)]
+    )
+
 class AddLessonForm(FlaskForm):
     """Add New Lesson Plan, for Logged in User"""
     title = StringField(
