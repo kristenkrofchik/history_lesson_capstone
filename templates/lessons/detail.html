@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ lesson.title }}
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ lesson.title }}</h1>
+
+    <p> 
+      {{ lesson.summary }}
+    </p>
+
+    {% if session['id'] == user.id %}
+    <ul>
+        <li>{{ lesson.start_date }}</li>
+        <li>{{ lesson.end_date }}</li>
+    </ul>
+
+
+    <p>
+        <a href="/users/{{ user.id }}/lessons"" class="btn btn-primary">
+      All Lessons
+        </a>
+    </p>
+
+    {% endif %}
+
+
+{% endblock %}

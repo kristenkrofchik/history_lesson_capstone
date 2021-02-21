@@ -194,6 +194,15 @@ def handle_add_lesson_form(user_id):
     else:
         return render_template("lessons/new.html", form=form)
 
+@app.route(f"/lessons/<int:lesson_id>")
+def show_single_lesson(lesson_id):
+    """Show information about a single lesson"""
+    lesson = Lesson.query.get(lesson_id)
+    user = lesson.user
+
+    return render_template('/lessons/detail.html', lesson=lesson, user=user)
+
+
 @app.route(f"/lessons/<int:lesson_id>/edit", methods=['GET'])
 def show_edit_lesson_form(lesson_id):
     """Show form to edit a lesson plan"""
@@ -202,9 +211,9 @@ def show_edit_lesson_form(lesson_id):
     if "id" not in session or lesson.user.id != session['id']:
         raise Unauthorized()
 
-    form = EditLessonForm()
+    form = EditLessonForm(obj=lesson)
 
-    return redirect('/lessons/edit.html', lesson=lesson, form=form)
+    return render_template('/lessons/edit.html', lesson=lesson, form=form)
 
 
 @app.route(f"/lessons/<int:lesson_id>/edit", methods=['POST'])
@@ -219,7 +228,7 @@ def handle_edit_lesson_form(lesson_id):
 
     if form.validate_on_submit():
         lesson.title = form.title.data
-        lesson.summary = form.content.data
+        lesson.summary = form.summary.data
         lesson.start_date = form.start_date.data.strftime('%Y-%m-%d')
         lesson.end_date = form.end_date.data.strftime('%Y-%m-%d')
 
