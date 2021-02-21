@@ -141,7 +141,6 @@ def show_user_lessons(user_id):
         raise Unauthorized()
 
     lessons = (Lesson.query.filter(Lesson.user_id == user_id)
-                .order_by(Lesson.timestamp.desc())
                 .all())
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
@@ -175,14 +174,16 @@ def handle_add_lesson_form(user_id):
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
-        start_date = form.start_date.data
-        end_date = form.end_date.data
+        start_date = form.start_date.data.strftime('%Y-%m-%d')
+        end_date = form.end_date.data.strftime('%Y-%m-%d')
+
 
         lesson = Lesson(
             title=title,
             summary=summary,
             start_date=start_date,
-            end_date=end_date
+            end_date=end_date,
+            user_id=user.id
         )
 
         db.session.add(lesson)
@@ -213,6 +214,22 @@ def handle_edit_lesson_form(lesson_id):
 
     if "id" not in session or lesson.user.id != session['id']:
         raise Unauthorized()
+
+    form = EditLessonForm(obj=lesson)
+
+    if form.validate_on_submit():
+        lesson.title = form.title.data
+        lesson.summary = form.content.data
+        lesson.start_date = form.start_date.data.strftime('%Y-%m-%d')
+        lesson.end_date = form.end_date.data.strftime('%Y-%m-%d')
+
+        db.session.commit()
+
+        return redirect(f"/lessons/{lesson.id}")
+
+    return render_template("lessons/edit.html", form=form, lesson=lesson)
+
+
 
 
 

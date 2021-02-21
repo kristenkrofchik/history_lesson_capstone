@@ -24,7 +24,18 @@
                     <li>{{lesson.start_date}}</li>
                     <li>{{lesson.end_date}}</li>
                 </ul>
+                <p>
+                    <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary">
+                      Edit Lesson
+                    </a>
+                </p>
+                <p>
+                    <a href="/lessons/{{ lesson.id }}/delete" class="btn btn-primary">
+                      Delete Lesson
+                    </a>
+                </p>
         </li>
+        {% endfor %}
     </ul>
 </div>
 

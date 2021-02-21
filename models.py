@@ -50,7 +50,7 @@ class User(db.Model):
         secondaryjoin=(Follows.user_following_id == id)
     )
 
-    lessons = db.relationship('Lesson')
+    #lessons = db.relationship('Lesson')
 
     @classmethod
     def signup(cls, username, password, email, first_name, last_name, school, grade, location):

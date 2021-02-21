@@ -1,5 +1,6 @@
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, SelectField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField
 from wtforms.validators import InputRequired, Length, NumberRange, Email, Optional
+from wtforms.fields.html5 import DateField
 from flask_wtf import FlaskForm
 
 
@@ -59,12 +60,12 @@ class AddLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    start_date = DateTimeField(
-        "When will thie Lesson begin?",
+    start_date = DateField(
+        "When will thie Lesson begin?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
-    end_date = DateTimeField(
-        "When will this lesson be completed?",
+    end_date = DateField(
+        "When will this lesson be completed?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
 
@@ -77,12 +78,12 @@ class EditLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    start_date = DateTimeField(
-        "When will thie Lesson begin?",
+    start_date = DateField(
+        "When will thie Lesson begin?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
-    end_date = DateTimeField(
-        "When will this lesson be completed?",
+    end_date = DateField(
+        "When will this lesson be completed?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
 
