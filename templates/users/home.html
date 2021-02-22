@@ -10,13 +10,13 @@
     <h1>Welcome {{user.username}}!</h1>
 
     <p> 
-      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
+      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary btn-sm">
         Your Lesson Plan List
       </a>
     </p>
 
     <p> 
-      <a href="/users/{{ user.id }}/edit" class="btn btn-primary">
+      <a href="/users/{{ user.id }}/edit" class="btn btn-primary btn-sm">
         Edit Profile
       </a>
     </p>
@@ -26,15 +26,43 @@
     <h1>{{user.username}}</h1>
 
     <p>
-      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary">
+      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary btn-sm">
       {{user.username}} Lesson Plan List
       </a>
     </p>
   {% endif %}
 
+  <form method="POST">
+
+    {{form.hidden_tag()}}
+  
+    {% for field in form.errors %}
+    <div class="alert alert-danger">{{ field }}:
+      <ul>
+        {% for error in form.errors[field] %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  
+    {% for field in form if field.widget.input_type != 'hidden' %}
+  
+    <div class="form-group row">
+      {{field.label(class="col-sm-2 col-form-label")}}
+      <div class="col-sm-10">
+        {{field(class="form-control")}}
+      </div>
+    </div>
+  
+    {% endfor %}
+  
+    <button class="btn btn-primary btn-sm">Search</button>
+  </form>
+
 
   <p>
-    <a href="/users" class="btn btn-primary">
+    <a href="/users" class="btn btn-primary btn-sm">
       Browse Users
     </a>
   </p>

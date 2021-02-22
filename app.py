@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
-from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, ResourceSearchForm
 from models import db, connect_db, Follows, User, Lesson, Resource
 
 
@@ -128,7 +128,9 @@ def show_user_home(user_id):
     search for other users, show user profile info (template), logout, reccomended resoucres?"""
     user = User.query.get_or_404(user_id)
 
-    return render_template('users/home.html', user=user)
+    form = ResourceSearchForm()
+
+    return render_template('users/home.html', user=user, form=form)
 
 @app.route(f"/users/<int:user_id>/edit", methods=['GET'])
 def show_edit_user_form(user_id):
@@ -290,6 +292,15 @@ def delete_lesson(lesson_id):
     db.session.commit()
 
     return redirect(f"/users/{user.id}/lessons")
+
+#@app.route(f"/resources/search-results")
+#def show_resource_search_results():
+#    """show search results from user search of LOC API (search box will be #on user home)"""
+
+#@app.route(f"/users/<int:user_id>/resources/new", methods=['POST'])
+#def add_resource():
+#    """Select resource from LOC API and add to database & user's profile"""
+
 
 
 

@@ -118,6 +118,11 @@ class EditLessonForm(FlaskForm):
         validators=[InputRequired()],
     )
 
+class ResourceSearchForm(FlaskForm):
+    """Search box on user homepage that will search LOC API"""
+    search_term = StringField('What are you looking for?', validators=[InputRequired()],
+    )
+
 
 #class UserSearchForm(FlaskForm):
 #    """Search users by username, last_name, location, grade, school"""
