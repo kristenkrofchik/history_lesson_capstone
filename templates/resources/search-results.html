@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Resource Search Results
+{% endblock %}
+
+{% block content %}
+
+<p>
+    <a href="/users/{{ user.id }}" class="btn btn-primary">
+      Return Home
+    </a>
+</p>
+
+<h1>Results</h1>
+
+<div class="col-sm-6">
+    <ul class="list-group" id="resourceSearchResults">
+        {% for results in results %}
+        <li class="list-group-item"><a href="/resources/{{ resource.id }}" class="user-link"/>
+            <h3>}</h3>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+{% endblock %}
