@@ -134,8 +134,6 @@ class Resource(db.Model):
 
     description = db.Column(db.Text)
 
-    loc_control_number = db.Column(db.Integer, nullable=False)
-
     url = db.Column(db.Text, nullable=False)
 
     lesson = db.relationship('Lesson', secondary='lessons_resources', backref='resources')
