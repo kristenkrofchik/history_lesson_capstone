@@ -32,34 +32,11 @@
     </p>
   {% endif %}
 
-  <form method="GET, POST" action="/resources/search-results" id="searchForm">
-
-    {{form.hidden_tag()}}
-  
-    {% for field in form.errors %}
-    <div class="alert alert-danger">{{ field }}:
-      <ul>
-        {% for error in form.errors[field] %}
-        <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endfor %}
-  
-    {% for field in form if field.widget.input_type != 'hidden' %}
-  
-    <div class="form-group row">
-      {{field.label(class="col-sm-2 col-form-label")}}
-      <div class="col-sm-10">
-        {{field(class="form-control")}}
-      </div>
-    </div>
-  
-    {% endfor %}
-  
-    <button class="btn btn-primary btn-sm" id="searchButton">Search</button>
+  <form method="post" action="/resources/search-results" id="searchForm">
+    <label for="searchTerm"></label>
+    <input type="text" placeholder="Search for Primary Resources" id="searchTerm" name="searchTerm">
+    <input type="submit" value="Submit">
   </form>
-
 
   <p>
     <a href="/users" class="btn btn-primary btn-sm">

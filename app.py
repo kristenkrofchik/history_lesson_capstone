@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
-from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, ResourceSearchForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
 from models import db, connect_db, Follows, User, Lesson, Resource
 
 
 app = Flask(__name__)
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -128,9 +129,7 @@ def show_user_home(user_id):
     search for other users, show user profile info (template), logout, reccomended resoucres?"""
     user = User.query.get_or_404(user_id)
 
-    form = ResourceSearchForm()
-
-    return render_template('users/home.html', user=user, form=form)
+    return render_template('users/home.html', user=user)
 
 @app.route(f"/users/<int:user_id>/edit", methods=['GET'])
 def show_edit_user_form(user_id):
