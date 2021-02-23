@@ -121,7 +121,7 @@ def show_users():
     return render_template('users/all.html', user=user, users=users)
 
 
-@app.route(f"/users/<int:user_id>")
+@app.route(f"/users/<int:user_id>", methods=['GET', 'POST'])
 def show_user_home(user_id):
     """Show Logged In User Homepage"""
     """Homepage will also need: user calendar,
@@ -293,9 +293,13 @@ def delete_lesson(lesson_id):
 
     return redirect(f"/users/{user.id}/lessons")
 
-#@app.route(f"/resources/search-results")
-#def show_resource_search_results():
-#    """show search results from user search of LOC API (search box will be #on user home)"""
+@app.route("/resources/search-results", methods=['GET', 'POST'])
+def show_resource_search_results():
+    """show search results from user search of LOC API (search box will be #on user home)"""
+
+    user = User.query.get_or_404(session['id'])
+
+    return render_template("resources/search-results.html", user=user)
 
 #@app.route(f"/users/<int:user_id>/resources/new", methods=['POST'])
 #def add_resource():
