@@ -1,16 +1,13 @@
-/*const resourceSearchResults = document.getElementById('resourceSearchResults');
+const resourceSearchResults = document.getElementById('resourceSearchResults');
 const searchBar = document.getElementById('searchBar');
-let searchOptions = [];*/'
-let userSearchResults
+let userSearchResults = [];
 
 
-/*searchBar.addEventListener('keyup', (e) => {
+searchBar.addEventListener('keyup', (e) => {
     const searchString = e.target.value.toLowerCase();
-    const filteredResults = resourceSearchResults.filter(result => {
-        return result.name.toLowerCase().includes(searchString) || result.house.toLowerCase().includes(searchString);
-    });
-    displayResults(filteredResults);
-});*/
+    searchLibrary(searchString);
+    displayResults(searchString);
+});
 
 
 async function searchLibrary(query) {
@@ -21,18 +18,18 @@ async function searchLibrary(query) {
     for(let i = 0; i < resultArray.length; i++) {
         searchItemObj = resultArray[i];
         searchItemShow = (({ title, description, url }) => ({ title, description, url }))(searchItemObj);
-        console.log(searchItemShow);
+        userSearchResults.push(searchItemShow);
     }
 }
 
-/*const displayResults = (results) => {
-	const htmlString = results
+const displayResults = (userSearchresults) => {
+	const htmlString = userSearchresults
     	.map((result) => {
         	return `
             <li class='result'>
-    			<h2>${result.name}</h2>
-    			<p>House: ${result.house}</p>
-    			<img src="${result.image}"></img>
+    			<h2>${result.title}</h2>
+    			<p>House: ${result.description}</p>
+    			<a href="${result.url}">Link</a>
             </li>
         `;
         })
@@ -40,4 +37,3 @@ async function searchLibrary(query) {
     resourceSearchResults.innerHTML = htmlString;
 };
 
-loadCharacters();*/
