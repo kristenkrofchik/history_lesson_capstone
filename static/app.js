@@ -1,3 +1,5 @@
+import Datepickk from "./datepickk";
+
 window.onload = function() {
     const resourceSearchResults = document.querySelector('#resourceSearchResults');
     const searchTerm = document.querySelector('#searchTerm');
@@ -34,6 +36,8 @@ window.onload = function() {
     }
 }
 
+let datepicker = new Datepickk();
+datepicker.show();
 
 
 
