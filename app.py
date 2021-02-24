@@ -293,9 +293,8 @@ def delete_lesson(lesson_id):
     return redirect(f"/users/{user.id}/lessons")
 
 @app.route("/resources/search", methods=['GET'])
-def show_resource_search_results():
-    """show search results from user search of LOC API (search box will be #on user home)"""
-
+def show_resource_search_page():
+    """show resource search form, where js code will show search results from 3rd party API"""
     user = User.query.get_or_404(session['id'])
 
     return render_template("resources/search.html", user=user)
