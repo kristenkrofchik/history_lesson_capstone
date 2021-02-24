@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Resource Search
+{% endblock %}
+
+{% block content %}
+
+<form methods="get post" action="/resources/search-results" id="searchForm">
+    <label for="searchTerm"></label>
+    <input type="text" placeholder="Search for Primary Resources" id="searchTerm" name="searchTerm">
+    <input type="submit" value="Submit">
+</form>
+
+<h1>Results</h1>
+
+<div class="col-sm-6">
+    <ul class="list-group" id="resourceSearchResults">
+    </ul>
+</div>
+
+<p>
+    <a href="/users/{{ user.id }}" class="btn btn-primary">
+      Return Home
+    </a>
+</p>
+
+
+{% endblock %}
