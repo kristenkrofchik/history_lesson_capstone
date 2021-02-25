@@ -29,11 +29,12 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/resources/add/" data-id="${item.id}" class="btn btn-primary">Add Resource</a></p>`;
+            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/resources/add" data-id="${item.id}" class="btn btn-primary addResource">Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
 }
+
 
 
 

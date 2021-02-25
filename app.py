@@ -3,7 +3,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
-from models import db, connect_db, Follows, User, Lesson, Resource
+from models import db, connect_db, Follows, User, Lesson, Resource, serialize_user, serialize_lesson, serialize_resource
 
 
 app = Flask(__name__)
@@ -52,13 +52,8 @@ def handle_register_form():
         username = form.username.data
         password = form.password.data
         email = form.email.data
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        school = form.school.data
-        grade = form.grade.data
-        location = form.location.data
 
-        user = User.signup(username, password, email, first_name, last_name, school, grade, location)
+        user = User.signup(username, password, email)
 
         db.session.commit()
         session['id'] = user.id

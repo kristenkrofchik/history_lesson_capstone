@@ -102,9 +102,6 @@ class EditLessonForm(FlaskForm):
         validators=[InputRequired()],
     )
 
-
-
-#class UserSearchForm(FlaskForm):
-#    """Search users by username, last_name, location, grade, school"""
-#    choices = [('Username', 'Username'),
-#                ('Last Name')]
+#class AddResourceForm(FlaskForm):
+    """Add Resource from LOC API search to user profile"""
+ #   title = 

@@ -37,6 +37,14 @@
     </ul>
 </div>
 
+{% if session['id'] == user.id %}
+<p> 
+    <a href="/users/{{user.id}}/lessons/new" class="btn btn-primary btn-sm">
+      Add Lesson
+    </a>
+  </p>
+{% endif %}
+
 
 
 {% endblock %}
