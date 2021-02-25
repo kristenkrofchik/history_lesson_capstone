@@ -184,6 +184,18 @@ def show_user_lessons(user_id):
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
 
+@app.route('/lessons/new')
+def show_add_lesson_form_from_cal():
+    """show form for adding a lesson plan from js calendar link"""
+    user = User.query.get_or_404(session['id'])
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = AddLessonForm()
+
+    return render_template("lessons/new.html", form=form)
+
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
