@@ -2,6 +2,7 @@
 const date = new Date();
 
 
+
 const renderCalendar = () => {
     date.setDate(1);
 
@@ -33,7 +34,7 @@ const renderCalendar = () => {
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
             days += `<div class="today"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
         } else {
-            days += `<div"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+            days += `<div><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
         }
     }
 

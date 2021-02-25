@@ -28,13 +28,13 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a href="${item.url}">${item.title}, ${item.description}</a>`;
+            itemDisplay.innerHTML = `<a class="resourceLink" href="${item.url}">${item.title}, ${item.description}</a><p><a href="/resources/add" class="btn btn-primary" methods=>Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
 }
 
-
+//<p><a href="/resources/add" class="btn btn-primary" methods=>Add Resource</a></p>
 
 
 
