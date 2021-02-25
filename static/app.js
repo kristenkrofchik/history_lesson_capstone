@@ -9,9 +9,10 @@ window.onload = function() {
     async function searchLibrary(query) {
         let result = await axios.get(`https://www.loc.gov/search/?q=${query}&fo=json`);
         let resultArray = result.data.results;
+        console.log(resultArray);
         for(let i = 0; i < resultArray.length; i++) {
             let searchItemObj = resultArray[i];
-            let searchItemShow = (({ title, description, url }) => ({ title, description, url }))(searchItemObj);
+            let searchItemShow = (({ id, title, description, date, url }) => ({ id, title, description, date, url }))(searchItemObj);
             userSearchResults.push(searchItemShow);
         }
         addItems(userSearchResults);
@@ -28,7 +29,7 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a class="resourceLink" href="${item.url}">${item.title}, ${item.description}</a><p><a href="/resources/add" class="btn btn-primary" methods=>Add Resource</a></p>`;
+            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/resources/add/" data-id="${item.id}" class="btn btn-primary">Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }

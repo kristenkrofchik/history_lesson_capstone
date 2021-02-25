@@ -3,7 +3,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
-from models import db, connect_db, Follows, User, Lesson, Resource, serialize_user, serialize_lesson, serialize_resource
+from models import db, connect_db, Follows, User, Lesson, Resource
 
 
 app = Flask(__name__)
@@ -333,7 +333,7 @@ def jsonify_user_data(user_id):
 
     return jsonify(user=serialized)
 
-@app.route("api/lessons/<int:lesson_id>")
+@app.route("/api/lessons/<int:lesson_id>")
 def jsonify_lesson_data(lesson_id):
     lesson = Lesson.query.get(lesson_id)
     serialized = serialize_lesson(lesson)
@@ -341,7 +341,7 @@ def jsonify_lesson_data(lesson_id):
     return jsonify(lesson=serialized)
 
 
-@app.route("api/resources/<int:resource_id>")
+@app.route("/api/resources/<int:resource_id>")
 def jsonify_resource_data(resource_id):
     resource = User.query.get(resource_id)
     serialized = serialize_resource(resource)
