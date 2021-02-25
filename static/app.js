@@ -34,7 +34,7 @@ window.onload = function() {
     }
 }
 
-//<p><a href="/resources/add" class="btn btn-primary" methods=>Add Resource</a></p>
+
 
 
 

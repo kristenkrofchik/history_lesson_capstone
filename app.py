@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
-from models import db, connect_db, Follows, User, Lesson, Resource
+from models import db, connect_db, Follows, User, Lesson, Resource, serialize_user, serialize_lesson, serialize_resource
 
 
 app = Flask(__name__)
@@ -21,6 +21,7 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
+"""Register, Login, Logout Routes"""
 
 @app.route('/')
 def homepage():
@@ -108,6 +109,8 @@ def logout_user():
     session.pop("id")
     return redirect("/login")
 
+"""Users/User Routes"""
+
 @app.route('/users')
 def show_users():
     """Browse all users, search users"""
@@ -183,6 +186,8 @@ def show_user_lessons(user_id):
                 .all())
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
+
+"""Lesson Routes"""
 
 @app.route('/lessons/new')
 def show_add_lesson_form_from_cal():
@@ -304,6 +309,8 @@ def delete_lesson(lesson_id):
 
     return redirect(f"/users/{user.id}/lessons")
 
+"""Resource routes"""
+
 @app.route("/resources/search", methods=['GET'])
 def show_resource_search_page():
     """show resource search form, where js code will show search results from 3rd party API"""
@@ -314,6 +321,32 @@ def show_resource_search_page():
 #@app.route(f"/users/<int:user_id>/resources/new", methods=['POST'])
 #def add_resource():
 #    """Select resource from LOC API and add to database & user's profile"""
+
+
+"""API ROUTES"""
+
+@app.route("/api/users/<int:user_id>")
+def jsonify_user_data(user_id):
+
+    user = User.query.get(user_id)
+    serialized = serialize_user(user)
+
+    return jsonify(user=serialized)
+
+@app.route("api/lessons/<int:lesson_id>")
+def jsonify_lesson_data(lesson_id):
+    lesson = Lesson.query.get(lesson_id)
+    serialized = serialize_lesson(lesson)
+
+    return jsonify(lesson=serialized)
+
+
+@app.route("api/resources/<int:resource_id>")
+def jsonify_resource_data(resource_id):
+    resource = User.query.get(resource_id)
+    serialized = serialize_resource(resource)
+
+    return jsonify(resource=serialized)
 
 
 

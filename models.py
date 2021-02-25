@@ -94,6 +94,19 @@ class User(db.Model):
 
         return False
 
+    def serialize_user(user):
+    """Serialize a dessert SQLAlchemy obj to dictionary."""
+
+        return {
+            "id": user.id,
+            "username": user.username,
+            "first_name" = user.first_name,
+            "last_name" = user.last_name,
+            "school" = user.school,
+            "grade" = user.grade,
+            "location" = user.location
+        }
+
 
 class Lesson(db.Model):
     """Lesson (Lesson Plan) Model"""
@@ -111,6 +124,18 @@ class Lesson(db.Model):
     end_date = db.Column(db.DateTime, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+
+    def serialize_lesson(lesson):
+    """Serialize a dessert SQLAlchemy obj to dictionary."""
+
+        return {
+            "id": user.id,
+            "title": lesson.title,
+            "summary": lesson.summary,
+            "start_date" = lesson.start_date,
+            "end_date" = lesson.end_date,
+            "user_id" = lesson.user_id
+        }
 
 
 class UserLesson(db.Model):
@@ -137,6 +162,16 @@ class Resource(db.Model):
     url = db.Column(db.Text, nullable=False)
 
     lesson = db.relationship('Lesson', secondary='lessons_resources', backref='resources')
+
+    def serialize_resource(resource):
+    """Serialize a dessert SQLAlchemy obj to dictionary."""
+
+        return {
+            "id": resource.id,
+            "title": resource.title,
+            "description": resource.description,
+            "url" = resrouce.url
+        }
 
 
 class LessonResource(db.Model):
