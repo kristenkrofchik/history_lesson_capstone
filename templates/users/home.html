@@ -33,17 +33,6 @@
       </div>
     </div>
 
-    <p> 
-      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary btn-sm">
-        Your Lesson Plan List
-      </a>
-    </p>
-
-    <p> 
-      <a href="/users/{{ user.id }}/edit" class="btn btn-primary btn-sm">
-        Edit Profile
-      </a>
-    </p>
   {% endif %}
 
   {% if session['id'] != user.id %}

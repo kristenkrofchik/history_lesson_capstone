@@ -130,11 +130,21 @@ def show_users():
 @app.route(f"/users/<int:user_id>", methods=['GET', 'POST'])
 def show_user_home(user_id):
     """Show Logged In User Homepage"""
-    """Homepage will also need: user calendar,
-    search for other users, show user profile info (template), logout, reccomended resoucres?"""
+
     user = User.query.get_or_404(user_id)
 
     return render_template('users/home.html', user=user)
+
+@app.route(f"/users/<int:user_id>/profile")
+def show_user_profile(user_id):
+    """Show logged in user profile page- full profile info, edit profile, following, follower, etc"""
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    return render_template('users/profile.html', user=user)
+
 
 @app.route(f"/users/<int:user_id>/edit", methods=['GET'])
 def show_edit_user_form(user_id):
@@ -170,7 +180,7 @@ def handle_edit_user_form(user_id):
 
         db.session.commit()
 
-        return redirect(f"/users/{user.id}")
+        return redirect(f"/users/{user.id}/profile")
 
     return render_template("users/edit.html", form=form, user=user)
 

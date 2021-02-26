@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{user.username}} Profile
+{% endblock %}
+
+{% block content %}
+
+    <h1>Welcome {{user.username}}!</h1>
+
+    <ul>
+    {% if user.first_name or user.last_name %}
+        <li>Name: {{user.first_name}} {{user.last_name}}</li>
+    {% endif %}
+    {% if user.school %}
+        <li>School: {{user.school}}</li>
+    {% endif %}
+    {% if user.grade %}
+        <li>Grade: {{user.grade}}</li>
+    {% endif %}
+    {% if user.location %}
+        <li>Location: {{user.location}}</li>
+    {% endif %}
+    </ul>
+
+    <p> 
+      <a href="/users/{{ user.id }}/edit" class="btn btn-primary btn-sm">
+        Edit Profile
+      </a>
+    </p>
+    
+    <ul>
+        <li class="stat">
+            <p class="small">Following</p>
+                <h4>
+                    <a href="/users/{{ user.id }}/following">{{ user.following | length }}</a>
+                </h4>
+        </li>
+        <li class="stat">
+            <p class="small">Followers</p>
+                <h4>
+                    <a href="/users/{{ user.id }}/followers">{{ user.followers | length }}</a>
+                </h4>
+        </li>
+    </ul>
+
+    <p>
+      <a href="/users/{{ user.id }}/lessons" class="btn btn-primary btn-sm">
+      {{user.username}} Lesson Plan List
+      </a>
+    </p>
+
+    <p>
+        <a href="/users/{{ user.id }}/resources" class="btn btn-primary btn-sm">
+        {{user.username}} Resource Plan List
+        </a>
+      </p>
+ 
+
+  <p>
+    <a href="/resources/search" class="btn btn-primary btn-sm">
+    Search for Primary Sources!
+    </a>
+  </p>
+
+
+  <p>
+    <a href="/users" class="btn btn-primary btn-sm">
+      Browse Users!
+    </a>
+  </p>
+
+
+{% endblock %}
