@@ -124,7 +124,7 @@ class Resource(db.Model):
 
     __tablename__ = "resources"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Text, primary_key=True)
 
     title = db.Column(db.Text, nullable=False)
 

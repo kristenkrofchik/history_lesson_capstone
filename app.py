@@ -320,28 +320,37 @@ def show_resource_search_page():
 
 """API ROUTES"""
 
-@app.route("/api/users/<int:user_id>")
-def jsonify_user_data(user_id):
+#@app.route("/api/users/<int:user_id>")
+#def jsonify_user_data(user_id):
 
-    user = User.query.get(user_id)
-    serialized = serialize_user(user)
+#    user = User.query.get(user_id)
+#    serialized = serialize_user(user)
 
-    return jsonify(user=serialized)
+#    return jsonify(user=serialized)
 
-@app.route("/api/lessons/<int:lesson_id>")
-def jsonify_lesson_data(lesson_id):
-    lesson = Lesson.query.get(lesson_id)
-    serialized = serialize_lesson(lesson)
+#@app.route("/api/lessons/<int:lesson_id>")
+#def jsonify_lesson_data(lesson_id):
+#    lesson = Lesson.query.get(lesson_id)
+#    serialized = serialize_lesson(lesson)
 
-    return jsonify(lesson=serialized)
+#    return jsonify(lesson=serialized)
 
 
-@app.route("/api/resources/<int:resource_id>")
-def jsonify_resource_data(resource_id):
-    resource = User.query.get(resource_id)
-    serialized = serialize_resource(resource)
+@app.route("/api/resources/add", methods=['GET', 'POST'])
+def add_resource():
+    user = User.query.get_or_404(session['id'])
 
-    return jsonify(resource=serialized)
+    id = request.json["id"]
+    title = request.json["title"]
+    description = request.json["description"]
+    url = request.json["url"]
+
+    new_resource = Resource(id=id, title=title, description=description, url=url)
+    
+    db.session.add(new_resource)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}", user=user)
 
 
 

@@ -29,11 +29,38 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/resources/add" data-id="${item.id}" class="btn btn-primary addResource">Add Resource</a></p>`;
+            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources/add" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-primary addResource" formmethod="post">Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
 }
+
+const addResourceButton = document.querySelector(".addResource");
+
+addResourceButton.addEventListener('click', () => {     
+    const resourceId = addResourceButton.dataset.id;
+    const resourceTitle = addResourceButton.dataset.title;
+    const resourceDescription = addResourceButton.dataset.description;
+    const resourceUrl = addResourceButton.dataset.url;
+
+    axios.post(`http://127.0.0.1:5000/api/resources`, {
+        id: resourceId,
+        title: resourceTitle,
+        description: resourceDescription,
+        url: resourceUrl
+    })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});
+
+
+
+
+
 
 
 
