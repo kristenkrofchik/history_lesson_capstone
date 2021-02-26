@@ -23,6 +23,11 @@
                     <li>{{resource.description}}</li>
                     <li>{{resource.url}}</li>
                 </ul>
+                <p>
+                    <a href="/resources/{{ resource.id }}/edit" class="btn btn-primary" methods=>
+                      Edit Lesson
+                    </a>
+                </p>
                 <form method="POST" action="/resources/{{ resource.id }}/delete">
                     <button class="btn btn-danger">Delete</button>
                 </form>

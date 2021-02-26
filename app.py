@@ -4,7 +4,7 @@ from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import IntegrityError
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
-from models import db, connect_db, Follows, User, Lesson, Resource, serialize_user, serialize_lesson, serialize_resource
+from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource, EditResourceForm
 
 
 app = Flask(__name__)
@@ -293,6 +293,10 @@ def show_add_lesson_form(user_id):
 
     form = AddLessonForm()
 
+    resources = [(resource.id, resource.title) for resource in Resource.query.all()]
+
+    form.resources.choices = resources
+
     return render_template("lessons/new.html", form=form)
 
 
@@ -307,10 +311,15 @@ def handle_add_lesson_form(user_id):
 
     form = AddLessonForm()
 
+    resources = [(resource.title, resource.url) for resource in Resource.query.all()]
+
+    form.resources.choices = resources
+
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
         date = form.date.data.strftime('%Y-%m-%d')
+        resources = form.resources.data
         
         lesson = Lesson(
             title=title,
@@ -340,11 +349,17 @@ def show_single_lesson(lesson_id):
 def show_edit_lesson_form(lesson_id):
     """Show form to edit a lesson plan"""
     lesson = Lesson.query.get(lesson_id)
+    user = User.query.get(lesson.user_id)
 
-    if "id" not in session or lesson.user.id != session['id']:
+    if "id" not in session or user.id != session['id']:
         raise Unauthorized()
 
     form = EditLessonForm(obj=lesson)
+
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id)
+                .all()]
+
+    form.resources.choices = resources
 
     return render_template('/lessons/edit.html', lesson=lesson, form=form)
 
@@ -353,16 +368,23 @@ def show_edit_lesson_form(lesson_id):
 def handle_edit_lesson_form(lesson_id):
     """Handle submit of form to edit a lesson plan, redirect to the main page for the lesson"""
     lesson = Lesson.query.get(lesson_id)
+    user = User.query.get(lesson.user_id)
 
-    if "id" not in session or lesson.user.id != session['id']:
+    if "id" not in session or user.id != session['id']:
         raise Unauthorized()
 
     form = EditLessonForm(obj=lesson)
+
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id)
+                .all()]
+
+    form.resourcess.choices = resources
 
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
         lesson.date = form.date.data.strftime('%Y-%m-%d')
+        lesson.resources = form.resources.data
 
         db.session.commit()
 
@@ -393,6 +415,66 @@ def show_resource_search_page():
     user = User.query.get_or_404(session['id'])
 
     return render_template("resources/search.html", user=user)
+
+@app.route("/resources/<resource_id>/edit", methods=["GET"])
+def show_edit_resource_form(resource_id):
+    resource = Resource.query.get(resource_id)
+    user = User.query.get(resource.user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = EditResourceForm(obj=resource)
+
+    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id)
+                .all()]
+
+    form.lesson.choices = lesson
+
+    return render_template('/lessons/edit.html', resource=resource, form=form)
+
+@app.route(f"/resources/<resource_id>/edit", methods=['POST'])
+def handle_edit_resource_form(resource_id):
+    """Handle submit of form to edit a resource, redirect to the main page for resources"""
+    resource = Resource.query.get(resource_id)
+    user = User.query.get(resource.user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    form = EditResourceForm(obj=resource)
+
+    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id)
+                .all()]
+
+    form.lesson.choices = lesson
+
+    if form.validate_on_submit():
+        resource.title = form.title.data
+        resource.description = form.description.data
+        #resource.lesson = form.lesson.data
+
+        db.session.commit()
+
+        return redirect(f"/user/{user.id}/resources")
+
+    return render_template("resources/edit.html", form=form, resource=resource)
+
+@app.route(f"/resources/<resource_id>/delete", methods=['POST'])
+def delete_resource(resource_id):
+    """Delete individual lesson."""
+
+    resource = Resource.query.get(resource_id)
+    user = User.query.get(resource.user_id)
+    
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    db.session.delete(resource)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}/resources")
+
 
 
 """API ROUTES"""

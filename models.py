@@ -141,7 +141,7 @@ class Resource(db.Model):
 
     url = db.Column(db.Text, nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
     lesson = db.relationship('Lesson', secondary='lessons_resources', backref='resources')
 
@@ -153,7 +153,7 @@ class LessonResource(db.Model):
 
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), primary_key=True)
     
-    resource_id = db.Column(db.Integer, db.ForeignKey('resources.id'), primary_key=True)
+    resource_id = db.Column(db.Text, db.ForeignKey('resources.id'), primary_key=True)
 
 def serialize_user(user):
         """Serialize a dessert SQLAlchemy obj to dictionary."""

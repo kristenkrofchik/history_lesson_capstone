@@ -79,6 +79,9 @@ class AddLessonForm(FlaskForm):
         "When will thie Lesson take place?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
+    resources = SelectField(
+        "Add Primary Resource", coerce=int
+    )
 
 class EditLessonForm(FlaskForm):
     """Edit lesson plan, for logged in user"""
@@ -93,7 +96,19 @@ class EditLessonForm(FlaskForm):
         "When will thie Lesson take place?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
+    resources = SelectField(
+        "Add Primary Resource", coerce=int
+    )
 
-#class AddResourceForm(FlaskForm):
-    """Add Resource from LOC API search to user profile"""
- #   title = 
+class EditResourceForm(FlaskForm):
+    """Edit Resource from LOC API, inclduing adding more easy-to-read info (nickname)"""    
+    title = StringField(
+        "Resource Name/Title",
+        validators=[InputRequired(), Length(min=1, max=75)],
+    )
+    description = TextAreaField(
+        "Description (Optional)",
+    )
+    lesson = SelectField(
+        "Add to a Lesson Plan", coerce=int
+    )
