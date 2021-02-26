@@ -36,4 +36,16 @@ Add a New History Lesson!
   <button class="btn btn-primary addLesson">Submit</button>
 </form>
 
+<p> 
+  <a href="/users/{{ user.id }}/lessons" class="btn btn-primary btn-sm">
+    Back to Lesson Plan List
+  </a>
+</p>
+
+<p>
+  <a href="/users/{{ user.id }}" class="btn btn-primary">
+    Return Home
+  </a>
+</p>
+
 {% endblock %}

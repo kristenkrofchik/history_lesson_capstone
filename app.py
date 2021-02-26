@@ -182,6 +182,20 @@ def show_user_lessons(user_id):
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
 
+@app.route(f"/users/<int:user_id>/resources")
+def show_user_lessons(user_id):
+    """Show a list of user resourcess. page is only accessible to the logged in user."""
+
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    resourcess = (Resource.query.filter(Resource.user_id == user_id)
+                .all())
+    
+    return render_template('users/resources.html', user=user, resources=resourcess)
+
 """Lesson Routes"""
 
 @app.route('/lessons/new')
@@ -313,10 +327,6 @@ def show_resource_search_page():
 
     return render_template("resources/search.html", user=user)
 
-#@app.route(f"/users/<int:user_id>/resources/new", methods=['POST'])
-#def add_resource():
-#    """Select resource from LOC API and add to database & user's profile"""
-
 
 """API ROUTES"""
 
@@ -345,7 +355,7 @@ def add_resource():
     description = request.json["description"]
     url = request.json["url"]
 
-    new_resource = Resource(id=id, title=title, description=description, url=url)
+    new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
     
     db.session.add(new_resource)
     db.session.commit()

@@ -132,6 +132,8 @@ class Resource(db.Model):
 
     url = db.Column(db.Text, nullable=False)
 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+
     lesson = db.relationship('Lesson', secondary='lessons_resources', backref='resources')
 
 

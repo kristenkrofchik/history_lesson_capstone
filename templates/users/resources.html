@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{user.username}} Resources
+{% endblock %}
+
+{% block content %}
+
+<p>
+    <a href="/users/{{ user.id }}" class="btn btn-primary">
+      Return Home
+    </a>
+</p>
+
+<h1>Resources</h1>
+
+<div class="col-sm-6">
+    <ul class="list-group" id="lessons">
+        {% for resource in resources %}
+        <li class="list-group-item"><a href="/lessons/{{ lesson.id }}" class="lesson-link"/>
+            <h3>{{resource.title}}</h3>
+                <ul>
+                    <li>{{resource.description}}</li>
+                    <li>{{resource.url}}</li>
+                </ul>
+                <form method="POST" action="/resources/{{ resource.id }}/delete">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% if session['id'] == user.id %}
+<p> 
+    <a href=/resources/search"" class="btn btn-primary btn-sm">
+      Search Resources
+    </a>
+  </p>
+{% endif %}
+
+
+
+{% endblock %}
