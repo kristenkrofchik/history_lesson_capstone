@@ -75,12 +75,8 @@ class AddLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    start_date = DateField(
-        "When will thie Lesson begin?", format='%Y-%m-%d',
-        validators=[InputRequired()],
-    )
-    end_date = DateField(
-        "When will this lesson be completed?", format='%Y-%m-%d',
+    date = DateField(
+        "When will thie Lesson take place?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
 
@@ -93,12 +89,8 @@ class EditLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    start_date = DateField(
-        "When will thie Lesson begin?", format='%Y-%m-%d',
-        validators=[InputRequired()],
-    )
-    end_date = DateField(
-        "When will this lesson be completed?", format='%Y-%m-%d',
+    date = DateField(
+        "When will thie Lesson take place?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
 

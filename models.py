@@ -88,6 +88,18 @@ class User(db.Model):
                 return user
 
         return False
+    
+    def is_followed_by(self, other_user):
+        """Is this user followed by `other_user`?"""
+
+        found_user_list = [user for user in self.followers if user == other_user]
+        return len(found_user_list) == 1
+
+    def is_following(self, other_user):
+        """Is this user following `other_use`?"""
+
+        found_user_list = [user for user in self.following if user == other_user]
+        return len(found_user_list) == 1
 
 
 class Lesson(db.Model):
@@ -101,12 +113,9 @@ class Lesson(db.Model):
 
     summary = db.Column(db.Text)
 
-    start_date = db.Column(db.DateTime, nullable=False)
-
-    end_date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
-
 
 
 class UserLesson(db.Model):
@@ -166,8 +175,7 @@ def serialize_lesson(lesson):
             "id": lesson.id,
             "title": lesson.title,
             "summary": lesson.summary,
-            "start_date": lesson.start_date,
-            "end_date": lesson.end_date,
+            "date": lesson.date,
             "user_id": lesson.user_id
         }
 

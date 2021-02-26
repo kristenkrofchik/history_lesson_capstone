@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
+from sqlalchemy.exc import IntegrityError
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
 from models import db, connect_db, Follows, User, Lesson, Resource, serialize_user, serialize_lesson, serialize_resource
@@ -49,14 +50,20 @@ def handle_register_form():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
-        email = form.email.data
+        try:
+            username = form.username.data
+            password = form.password.data
+            email = form.email.data
 
-        user = User.signup(username, password, email)
+            user = User.signup(username, password, email)
 
-        db.session.commit()
-        session['id'] = user.id
+            db.session.commit()
+            session['id'] = user.id
+
+        except IntegrityError as e:
+            flash("Username already taken, please enter a different username", 'danger')
+            return render_template('register.html', form=form)
+
 
         return redirect(f"/users/{user.id}")
 
@@ -183,7 +190,7 @@ def show_user_lessons(user_id):
     return render_template('users/lessons.html', user=user, lessons=lessons)
 
 @app.route(f"/users/<int:user_id>/resources")
-def show_user_lessons(user_id):
+def show_user_resources(user_id):
     """Show a list of user resourcess. page is only accessible to the logged in user."""
 
     user = User.query.get(user_id)
@@ -195,6 +202,60 @@ def show_user_lessons(user_id):
                 .all())
     
     return render_template('users/resources.html', user=user, resources=resourcess)
+
+@app.route('/users/<int:user_id>/following')
+def show_following(user_id):
+    """Show list of people this user is following."""
+
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    return render_template('users/following.html', user=user)
+
+
+@app.route('/users/<int:user_id>/followers')
+def users_followers(user_id):
+    """Show list of followers of this user."""
+
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    return render_template('users/followers.html', user=user)
+
+@app.route('/users/follow/<int:follow_id>', methods=['POST'])
+def add_follow(follow_id):
+    """Add a follow for the currently-logged-in user."""
+
+    user = User.query.get_or_404(session['id'])
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    followed_user = User.query.get_or_404(follow_id)
+    user.following.append(followed_user)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}/following")
+
+
+@app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
+def stop_following(follow_id):
+    """Have currently-logged-in-user stop following this user."""
+
+    user = User.query.get_or_404(session['id'])
+
+    if "id" not in session or user.id != session['id']:
+        raise Unauthorized()
+
+    followed_user = User.query.get(follow_id)
+    user.following.remove(followed_user)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}/following")
 
 """Lesson Routes"""
 
@@ -239,15 +300,12 @@ def handle_add_lesson_form(user_id):
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
-        start_date = form.start_date.data.strftime('%Y-%m-%d')
-        end_date = form.end_date.data.strftime('%Y-%m-%d')
-
-
+        date = form.date.data.strftime('%Y-%m-%d')
+        
         lesson = Lesson(
             title=title,
             summary=summary,
-            start_date=start_date,
-            end_date=end_date,
+            date=date,
             user_id=user.id
         )
 
@@ -294,8 +352,7 @@ def handle_edit_lesson_form(lesson_id):
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
-        lesson.start_date = form.start_date.data.strftime('%Y-%m-%d')
-        lesson.end_date = form.end_date.data.strftime('%Y-%m-%d')
+        lesson.date = form.date.data.strftime('%Y-%m-%d')
 
         db.session.commit()
 
