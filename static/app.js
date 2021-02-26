@@ -9,7 +9,6 @@ window.onload = function() {
     async function searchLibrary(query) {
         let result = await axios.get(`https://www.loc.gov/search/?q=${query}&fo=json`);
         let resultArray = result.data.results;
-        console.log(resultArray);
         for(let i = 0; i < resultArray.length; i++) {
             let searchItemObj = resultArray[i];
             let searchItemShow = (({ id, title, description, date, url }) => ({ id, title, description, date, url }))(searchItemObj);
@@ -33,29 +32,35 @@ window.onload = function() {
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
+
+    resourceSearchResults.addEventListener('click', function(ev) {
+        if(ev.target.tagName === 'A') {
+            const resourceId = ev.target.dataset.id;
+            const resourceTitle = ev.target.dataset.title;
+            const resourceDescription = ev.target.dataset.description;
+            const resourceUrl = ev.target.dataset.url;
+
+            let json = JSON.stringify({
+                id: resourceId,
+                title: resourceTitle,
+                description: resourceDescription,
+                url: resourceUrl
+            })
+
+        axios.post(`http://127.0.0.1:5000/api/resources/add`, {json})
+            .then(response => {
+                console.log(response);
+        })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    })
 }
 
-const addResourceButton = document.querySelector(".addResource");
 
-addResourceButton.addEventListener('click', () => {     
-    const resourceId = addResourceButton.dataset.id;
-    const resourceTitle = addResourceButton.dataset.title;
-    const resourceDescription = addResourceButton.dataset.description;
-    const resourceUrl = addResourceButton.dataset.url;
 
-    axios.post(`http://127.0.0.1:5000/api/resources`, {
-        id: resourceId,
-        title: resourceTitle,
-        description: resourceDescription,
-        url: resourceUrl
-    })
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-});
+
 
 
 
