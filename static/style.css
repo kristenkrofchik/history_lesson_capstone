@@ -2,18 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Noto Serif', serif;
 }
 
 html {
     font-size: 62.5%;
 }
 
+a {
+    color: #FBFFEB;
+}
+
+a:hover {
+    color: #D09F8B;
+}
+
 .calendarContainer {
     width: 100%;
     height: 60%;
-    background-color: #12121f;
-    color: #eee;
+    background-color: #1D1E20;
+    color: #FBFFEB;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -22,14 +30,13 @@ html {
 .calendar {
     width: 45rem;
     height: 52rem;
-    background-color: #222227;
-    /*box-shadow: 0.5rem 3rem rgba(0,0,0,0.4);*/
+    background-color: #403B2F;
 }
 
 .month {
     width:100%;
     height: 12rem;
-    background-color: #167e56;
+    background-color: #705C4E;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -92,8 +99,8 @@ html {
 }
 
 .days div:hover:not(.today) {
-    background-color: #262626;
-    border: 0.2rem solid #777;
+    background-color: #D09F8B;
+    border: 0.2rem solid #FBFFEB;
     cursor: pointer;
 }
 
@@ -103,12 +110,17 @@ html {
 }
 
 .today {
-    background-color: #167e56;
+    background-color: #705C4E;
 }
 
 .calendarLink {
     font-size: .75rem;
 }
 
+.nav-link {
+    padding: 10px;
+}
 
-
+.navbar-brand {
+    letter-spacing: 1px;
+}

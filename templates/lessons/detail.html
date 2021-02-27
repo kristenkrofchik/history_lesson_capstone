@@ -19,18 +19,18 @@
     </ul>
 
     <p>
-        <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary" methods=>
+        <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
           Edit Lesson
         </a>
     </p>
     
     <form method="POST" action="/lessons/{{ lesson.id }}/delete">
-        <button class="btn btn-danger">Delete Lesson</button>
+        <button class="btn btn-secondary btn-sm m-1">Delete Lesson</button>
     </form>
 
 
     <p>
-        <a href="/users/{{ user.id }}/lessons"" class="btn btn-primary">
+        <a href="/users/{{ user.id }}/lessons"" class="btn btn-secondary btn-sm m-1y">
       All Lessons
         </a>
     </p>

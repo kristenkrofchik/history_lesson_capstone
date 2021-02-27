@@ -9,7 +9,7 @@
 <form methods="get post" action="/resources/search-results" id="searchForm">
     <label for="searchTerm"></label>
     <input type="text" placeholder="Search for Primary Resources" id="searchTerm" name="searchTerm">
-    <input type="submit" value="Submit">
+    <input type="submit" class = "btn btn-secondary btn-sm m-1" value="Submit">
 </form>
 
 <h1>Results</h1>
@@ -20,7 +20,7 @@
 </div>
 
 <p>
-    <a href="/users/{{ user.id }}" class="btn btn-primary">
+    <a href="/users/{{ user.id }}" class="btn btn-secondary btn-sm m-1">
       Return Home
     </a>
 </p>

@@ -7,7 +7,7 @@
 {% block content %}
 
 <p>
-    <a href="/users/{{ user.id }}" class="btn btn-primary">
+    <a href="/users/{{ user.id }}" class="btn btn-secondary btn-sm m-1">
       Return Home
     </a>
 </p>
@@ -25,12 +25,12 @@
                     <li>{{lesson.end_date}}</li>
                 </ul>
                 <p>
-                    <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-primary" methods=>
+                    <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
                       Edit Lesson
                     </a>
                 </p>
                 <form method="POST" action="/lessons/{{ lesson.id }}/delete">
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-secondary btn-sm m-1">Delete</button>
                 </form>
         </li>
         {% endfor %}
@@ -39,7 +39,7 @@
 
 {% if session['id'] == user.id %}
 <p> 
-    <a href="/users/{{user.id}}/lessons/new" class="btn btn-primary btn-sm">
+    <a href="/users/{{user.id}}/lessons/new" class="btn btn-secondary btn-sm m-1">
       Add Lesson
     </a>
   </p>
