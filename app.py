@@ -3,7 +3,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import IntegrityError
 
-from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm, EditPasswordForm
 from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource
 
 
@@ -183,6 +183,25 @@ def handle_edit_user_form(user_id):
         return redirect(f"/users/{user.id}/profile")
 
     return render_template("users/edit.html", form=form, user=user)
+
+@app.route(f"/users/<int:user_id>/edit_password", methods=['GET', 'POST'])
+def edit_user_password(user_id):
+    """Show & Handle Form to change user password"""
+    user = User.query.get(user_id)
+
+    form = EditPasswordForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = user
+            user.password = form.password.data
+            db.session.add(user)
+            db.session.commit()
+            flash('Password has been updated!', 'success')
+            return redirect(f"/users/{user.id}/profile", user=user)
+    
+    return render_template('password_change.html', form=form)
+
 
 
 @app.route(f"/users/<int:user_id>/lessons")

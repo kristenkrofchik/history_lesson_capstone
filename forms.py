@@ -66,6 +66,23 @@ class EditUserForm(FlaskForm):
         validators=[Length(max=30)]
     )
 
+class EditPasswordForm(FlaskForm):
+    password = PasswordField(
+        "Current Password",
+        validators=[InputRequired(), Length(min=6, max=35), EqualTo('confirm', message='Passwords must match')],
+    )
+    confirm = PasswordField(
+        'Confirm Current Password',
+    )
+    new_password = PasswordField(
+        "New Password",
+        validators=[InputRequired(), Length(min=6, max=35), EqualTo('confirm', message='Passwords must match')],
+    )
+    confirm = PasswordField(
+        'Confirm New Password',
+    )
+
+
 class AddLessonForm(FlaskForm):
     """Add New Lesson Plan, for Logged in User"""
     title = StringField(
