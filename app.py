@@ -187,21 +187,25 @@ def handle_edit_user_form(user_id):
 @app.route(f"/users/<int:user_id>/edit_password", methods=['GET', 'POST'])
 def edit_user_password(user_id):
     """Show & Handle Form to change user password"""
-    user = User.query.get(user_id)
-
     form = EditPasswordForm()
+    user = User.query.get_or_404(user_id)
+    username = user.username
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            user = user
-            user.password = form.password.data
+            username = username
+            password = form.new_password.data
+
+            user = User.authenticate_new_password(username, password)  
+            
             db.session.add(user)
             db.session.commit()
             flash('Password has been updated!', 'success')
-            return redirect(f"/users/{user.id}/profile", user=user)
+            return redirect(f"/users/{user.id}/profile")
+        else:
+            return render_template('users/edit_password.html', form=form, user=user)
     
-    return render_template('password_change.html', form=form)
-
+    return render_template('users/edit_password.html', form=form, user=user)
 
 
 @app.route(f"/users/<int:user_id>/lessons")

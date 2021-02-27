@@ -76,9 +76,9 @@ class EditPasswordForm(FlaskForm):
     )
     new_password = PasswordField(
         "New Password",
-        validators=[InputRequired(), Length(min=6, max=35), EqualTo('confirm', message='Passwords must match')],
+        validators=[InputRequired(), Length(min=6, max=35), EqualTo('confirm_new_password', message='New passwords must match')],
     )
-    confirm = PasswordField(
+    confirm_new_password = PasswordField(
         'Confirm New Password',
     )
 

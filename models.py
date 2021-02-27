@@ -88,7 +88,24 @@ class User(db.Model):
                 return user
 
         return False
-    
+
+    @classmethod
+    def authenticate_new_password(cls, username, password):
+        """security for password change"""
+
+        user = cls.query.filter_by(username=username).first()
+
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        if user:
+            user.password = hashed_pwd
+
+            db.session.add(user)
+            db.session.commit
+
+            return user
+
+
     def is_followed_by(self, other_user):
         """Is this user followed by `other_user`?"""
 
