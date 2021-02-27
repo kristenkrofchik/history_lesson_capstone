@@ -58,6 +58,33 @@ window.onload = function() {
     })
 }
 
+const newLessonButton = document.querySelector(".newLessonButton")
+
+newLessonButton.addEventListener('click', function(ev) {
+    ev.preventDefault();
+
+    const lessonTitle = document.querySelector(".title").value;
+    const lessonSummary = document.querySelector(".summary").value;
+    const lessonDate = document.querySelector(".date").value;
+
+    let json = JSON.stringify({
+        title: lessonTitle,
+        summary: lessonSummary,
+        date: lessonDate,
+    })
+
+    axios.post(`http://127.0.0.1:5000/api/lessons/add`, {json})
+            .then(response => {
+                console.log(response);
+        })
+            .catch(error => {
+                console.log(error);
+            });
+    
+    
+
+})
+
 
 
 

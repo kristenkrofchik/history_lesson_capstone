@@ -3,8 +3,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import IntegrityError
 
-from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm
-from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource, EditResourceForm
+from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm
+from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource
 
 
 app = Flask(__name__)
@@ -279,7 +279,7 @@ def show_add_lesson_form_from_cal():
 
     form = AddLessonForm()
 
-    return render_template("lessons/new.html", form=form)
+    return render_template("lessons/new.html", form=form, user=user)
 
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
@@ -487,12 +487,20 @@ def delete_resource(resource_id):
 
 #    return jsonify(user=serialized)
 
-#@app.route("/api/lessons/<int:lesson_id>")
-#def jsonify_lesson_data(lesson_id):
-#    lesson = Lesson.query.get(lesson_id)
-#    serialized = serialize_lesson(lesson)
+@app.route("/api/lessons/add", methods=['GET', 'POST'])
+def jsonify_lesson_data():
+    user = User.query.get_or_404(session['id'])
 
-#    return jsonify(lesson=serialized)
+    title = request.json["title"]
+    summary = request.json["summary"]
+    date = request.json["date"]
+
+    new_lesson = Lesson(title=title, summary=summary, date=date, user_id=user.id)
+    
+    db.session.add(new_lesson)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}", user=user)
 
 
 @app.route("/api/resources/add", methods=['GET', 'POST'])

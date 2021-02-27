@@ -2,7 +2,6 @@
 const date = new Date();
 
 
-
 const renderCalendar = () => {
     date.setDate(1);
 
@@ -27,19 +26,19 @@ const renderCalendar = () => {
     let days = '';
 
     for(let x = firstDayIndex; x > 0; x--) {
-        days += `<div class="prev-date"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+        days += `<div class="prev-date calDate"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
     }
 
     for(let i = 1; i <= lastDay; i++) {
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
-            days += `<div class="today"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+            days += `<div class="today calDate"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
         } else {
-            days += `<div><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+            days += `<div class="calDate"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
         }
     }
 
     for(let j = 1; j <= nextDays; j++) {
-        days += `<div class="next-date"><h5>${j}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+        days += `<div class="next-date calDate"><h5>${j}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
         monthDays.innerHTML = days;
     }
 }
@@ -62,3 +61,10 @@ renderCalendar();
 //if a date has seeLessons just maybe change color and link to lesson plan
 
 //make axios request ti iur database to get the startdate
+
+document.querySelector('.days').addEventListener('click', function(ev) {
+    if(ev.target.classList.contains('calDate')) {
+        ev.target.classList.add('hasLesson')
+    }
+});
+
