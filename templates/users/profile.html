@@ -6,69 +6,35 @@
 
 {% block content %}
 
-    <h1>Welcome {{user.username}}!</h1>
+    <h1>Welcome {{user.first_name}}!</h1>
 
-    <ul>
-    {% if user.first_name or user.last_name %}
-        <li>Name: {{user.first_name}} {{user.last_name}}</li>
-    {% endif %}
-    {% if user.school %}
-        <li>School: {{user.school}}</li>
-    {% endif %}
-    {% if user.grade %}
-        <li>Grade: {{user.grade}}</li>
-    {% endif %}
-    {% if user.location %}
-        <li>Location: {{user.location}}</li>
-    {% endif %}
+    <div class="card" style="width: 100%">
+      <div class="wrapper">
+        <img class="card-img-top" src="https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Image of a stack of educational papers">
+      </div>
+      <div class="card-body">
+        <h3 class="card-title text-uppercase">{{user.username}}</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Name: {{user.first_name}} {{user.last_name}}</li>
+        <li class="list-group-item">School: {{user.school}}</li>
+        <li class="list-group-item">Grade: {{user.grade}}</li>
+        <li class="list-group-item">Location: {{user.location}}</li>
+      </ul>
+      <div class="card-body">
+        <a href="/users/{{ user.id }}/following" class="card-link" style="color: #3b4148" >{{ user.following | length }} Following</a>
+        <a href="/users/{{ user.id }}/followers" class="card-link" style="color: #3b4148">{{ user.followers | length }} Followers</a>
+      </div>
+    </div>
+
+    <ul class="list-inline">
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/edit">Edit Profile</a></li>
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/lessons">My Lesson Plans</a></li>
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/resources">My Primary Resources</a></li>
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/resources/search">Search Primary Resources</a></li>
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users">Browse Users</a></li>
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}">Home</a></li>
     </ul>
-
-    <p> 
-      <a href="/users/{{ user.id }}/edit" class="btn btn-secondary btn-sm m-1">
-        Edit Profile
-      </a>
-    </p>
-    
-    <ul>
-        <li class="stat">
-            <p class="small">Following</p>
-                <h4>
-                    <a href="/users/{{ user.id }}/following">{{ user.following | length }}</a>
-                </h4>
-        </li>
-        <li class="stat">
-            <p class="small">Followers</p>
-                <h4>
-                    <a href="/users/{{ user.id }}/followers">{{ user.followers | length }}</a>
-                </h4>
-        </li>
-    </ul>
-
-    <p>
-      <a href="/users/{{ user.id }}/lessons" class="btn btn-secondary btn-sm m-1">
-      {{user.username}} Lesson Plan List
-      </a>
-    </p>
-
-    <p>
-        <a href="/users/{{ user.id }}/resources" class="btn btn-secondary btn-sm m-1">
-        {{user.username}} Resource Plan List
-        </a>
-      </p>
- 
-
-  <p>
-    <a href="/resources/search" class="btn btn-secondary btn-sm m-1">
-    Search for Primary Sources!
-    </a>
-  </p>
-
-
-  <p>
-    <a href="/users" class="btn btn-secondary btn-sm m-1">
-      Browse Users!
-    </a>
-  </p>
 
 
 {% endblock %}

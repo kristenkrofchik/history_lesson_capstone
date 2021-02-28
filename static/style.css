@@ -5,22 +5,26 @@
     font-family: 'Noto Serif', serif;
 }
 
+body {
+    background-color: #ded7c9;
+}
+
 html {
     font-size: 62.5%;
 }
 
 a {
-    color: #FBFFEB;
+    color: #ded7c9;
 }
 
 a:hover {
-    color: #D09F8B;
+    color: #ccc0ab;
 }
 
 .calendarContainer {
     width: 100%;
     height: 60%;
-    background-color: #1D1E20;
+    background-image: url("https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80");
     color: #FBFFEB;
     display:flex;
     justify-content: center;
@@ -29,14 +33,14 @@ a:hover {
 
 .calendar {
     width: 45rem;
-    height: 52rem;
-    background-color: #403B2F;
+    height: 45rem;
+    background-color: #0a0806;
 }
 
 .month {
     width:100%;
     height: 12rem;
-    background-color: #705C4E;
+    background-color: #100d09;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,7 +62,7 @@ a:hover {
 }
 
 .month p {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
 }
 
 .weekdays {
@@ -99,8 +103,8 @@ a:hover {
 }
 
 .days div:hover:not(.today) {
-    background-color: #D09F8B;
-    border: 0.2rem solid #FBFFEB;
+    background-color: #746446;
+    border: 0.2rem solid #282318;
     cursor: pointer;
 }
 
@@ -110,7 +114,7 @@ a:hover {
 }
 
 .today {
-    background-color: #705C4E;
+    background-color: #64563e;
 }
 
 .calendarLink {
@@ -124,3 +128,18 @@ a:hover {
 .navbar-brand {
     letter-spacing: 1px;
 }
+
+.wrapper {
+    height: 40%;
+}
+
+.card-link:hover {
+    color: #282318;
+}
+
+.card-img-top {
+    max-height: 200px;
+    min-height: 150px;
+    object-fit: cover;
+}
+
