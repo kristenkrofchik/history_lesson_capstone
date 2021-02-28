@@ -92,9 +92,12 @@ class AddLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    date = DateField(
-        "When will thie Lesson take place?", format='%Y-%m-%d',
+    start_date = DateField(
+        "When will the lesson start?", format='%Y-%m-%d',
         validators=[InputRequired()],
+    )
+    end_date = DateField(
+        "When will the lesson end?", format='%Y-%m-%d',
     )
     resources = SelectField(
         "Add Primary Resource", coerce=int
@@ -109,9 +112,12 @@ class EditLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    date = DateField(
-        "When will thie Lesson take place?", format='%Y-%m-%d',
+    start_date = DateField(
+        "When will the lesson start?", format='%Y-%m-%d',
         validators=[InputRequired()],
+    )
+    end_date = DateField(
+        "When will the lesson end?", format='%Y-%m-%d',
     )
     resources = SelectField(
         "Add Primary Resource", coerce=int

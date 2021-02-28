@@ -341,13 +341,15 @@ def handle_add_lesson_form(user_id):
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
-        date = form.date.data.strftime('%Y-%m-%d')
+        start_date = form.start_date.data.strftime('%Y-%m-%d')
+        end_date = form.end_date.data.strftime('%Y-%m-%d')
         resources = form.resources.data
         
         lesson = Lesson(
             title=title,
             summary=summary,
-            date=date,
+            start_date=date,
+            end_date=date,
             user_id=user.id
         )
 
@@ -406,7 +408,8 @@ def handle_edit_lesson_form(lesson_id):
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
-        lesson.date = form.date.data.strftime('%Y-%m-%d')
+        lesson.start_date = form.start_date.data.strftime('%Y-%m-%d')
+        lesson.end_date = form.end_date.data.strftime('%Y-%m-%d')
         lesson.resources = form.resources.data
 
         db.session.commit()
@@ -510,20 +513,23 @@ def delete_resource(resource_id):
 
 #    return jsonify(user=serialized)
 
+"""
 @app.route("/api/lessons/add", methods=['GET', 'POST'])
 def jsonify_lesson_data():
     user = User.query.get_or_404(session['id'])
 
     title = request.json["title"]
     summary = request.json["summary"]
-    date = request.json["date"]
+    start_date = request.json["start_date"]
+    end_date = request.json["end_date"]
 
-    new_lesson = Lesson(title=title, summary=summary, date=date, user_id=user.id)
+    new_lesson = Lesson(title=title, summary=summary, start_date=start_date, end_date=end_date, user_id=user.id)
     
     db.session.add(new_lesson)
     db.session.commit()
 
     return redirect(f"/users/{user.id}", user=user)
+"""
 
 
 @app.route("/api/resources/add", methods=['GET', 'POST'])
