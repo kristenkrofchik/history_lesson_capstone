@@ -12,7 +12,8 @@ from models import db, connect_db, Follows, User, Lesson, Resource, serialize_re
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("postgres:///history-lesson", "postgres:///flask-heroku")
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("postgres:///#history-lesson"), "postgres:///flask-heroku")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'nevertell')
@@ -26,7 +27,7 @@ db.create_all()
 
 """Register, Login, Logout Routes"""
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def homepage():
     """Homepage. Redirect to Register Page"""
     return redirect('/register')

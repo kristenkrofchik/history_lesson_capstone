@@ -58,7 +58,7 @@ window.onload = function() {
     })
 }
 
-const newLessonButton = document.querySelector(".newLessonButton")
+/*const newLessonButton = document.querySelector(".newLessonButton")
 
 newLessonButton.addEventListener('click', function(ev) {
     ev.preventDefault();
@@ -83,7 +83,7 @@ newLessonButton.addEventListener('click', function(ev) {
     
     
 
-})
+})*/
 
 
 

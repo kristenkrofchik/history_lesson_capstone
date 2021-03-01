@@ -46,23 +46,23 @@ class EditUserForm(FlaskForm):
         validators=[InputRequired(), Email(), Length(max=50)],
     )
     first_name = StringField(
-        "First Name (Optional)",
+        "First Name",
         validators=[Length(max=30)],
     )
     last_name = StringField(
-        "Last Name (Optional)",
+        "Last Name",
         validators=[Length(max=30)],
     )
     school = StringField(
-        "School Name (Optional)",
+        "School Name",
         validators=[Length(max=40)]
     )
     grade = StringField(
-        "Grade (Optional)",
+        "Grade",
         validators=[Length(max=15)]
     )
     location = StringField(
-        "Location (Optional)",
+        "Location",
         validators=[Length(max=30)]
     )
 
@@ -110,7 +110,7 @@ class EditLessonForm(FlaskForm):
         validators=[InputRequired(), Length(min=1, max=75)],
     )
     summary = TextAreaField(
-        "Summary (Optional)",
+        "Summary",
     )
     start_date = DateField(
         "When will the lesson start?", format='%Y-%m-%d',

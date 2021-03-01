@@ -16,10 +16,18 @@
         <h3 class="card-title text-uppercase">{{user.username}}</h3>
       </div>
       <ul class="list-group list-group-flush">
+        {% if user.first_name and user.last_name %}
         <li class="list-group-item">Name: {{user.first_name}} {{user.last_name}}</li>
+        {% endif %}
+        {% if user.school %}
         <li class="list-group-item">School: {{user.school}}</li>
+        {% endif %}
+        {% if user.grade %}
         <li class="list-group-item">Grade: {{user.grade}}</li>
+        {% endif %}
+        {% if user.location %}
         <li class="list-group-item">Location: {{user.location}}</li>
+        {% endif %}
       </ul>
       <div class="card-body">
         <a href="/users/{{ user.id }}/following" class="card-link" style="color: #3b4148" >{{ user.following | length }} Following</a>
@@ -29,8 +37,13 @@
 
     <ul class="list-inline">
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/edit">Edit Profile</a></li>
+      {% if user.lessons %}
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/lessons">My Lesson Plans</a></li>
+      {% endif %}
+      {% if user.resources %}
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}/resources">My Primary Resources</a></li>
+      {% endif %}
+      <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/lessons/new">Add Lesson Plan</a></li>
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/resources/search">Search Primary Resources</a></li>
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users">Browse Users</a></li>
       <li class="list-inline-item btn btn-secondary btn-sm m-1"><a href="/users/{{ user.id }}">Home</a></li>
