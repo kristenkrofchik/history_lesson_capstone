@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
@@ -10,10 +12,10 @@ from models import db, connect_db, Follows, User, Lesson, Resource, serialize_re
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("postgres:///history-lesson", "postgres:///flask-heroku")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-app.config['SECRET_KEY'] = "secretkey"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'nevertell')
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
