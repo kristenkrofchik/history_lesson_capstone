@@ -11,6 +11,12 @@ class RegisterForm(FlaskForm):
         "Username",
         validators=[InputRequired(), Length(min=1, max=25)],
     )
+    first_name = StringField(
+        "First Name (Optional)"
+    )
+    last_name = StringField(
+        "Last Name (Optional)"
+    )
     password = PasswordField(
         "Password",
         validators=[InputRequired(), Length(min=6, max=35), EqualTo('confirm', message='Passwords must match')],
@@ -92,12 +98,9 @@ class AddLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    start_date = DateField(
-        "When will the lesson start?", format='%Y-%m-%d',
+    date = DateField(
+        "When will the lesson occur?", format='%Y-%m-%d',
         validators=[InputRequired()],
-    )
-    end_date = DateField(
-        "When will the lesson end?", format='%Y-%m-%d',
     )
     resources = SelectField(
         "Add Primary Resource", coerce=int
@@ -112,12 +115,9 @@ class EditLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary",
     )
-    start_date = DateField(
-        "When will the lesson start?", format='%Y-%m-%d',
+    date = DateField(
+        "When will the lesson occur?", format='%Y-%m-%d',
         validators=[InputRequired()],
-    )
-    end_date = DateField(
-        "When will the lesson end?", format='%Y-%m-%d',
     )
     resources = SelectField(
         "Add Primary Resource", coerce=int

@@ -57,8 +57,10 @@ def handle_register_form():
             username = form.username.data
             password = form.password.data
             email = form.email.data
+            first_name = form.first_name.data
+            last_name = form.last_name.data
 
-            user = User.signup(username, password, email)
+            user = User.signup(username, password, email, first_name, last_name)
 
             db.session.commit()
             session['id'] = user.id
@@ -344,15 +346,13 @@ def handle_add_lesson_form(user_id):
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
-        start_date = form.start_date.data.strftime('%Y-%m-%d')
-        end_date = form.end_date.data.strftime('%Y-%m-%d')
+        date = form.date.data.strftime('%Y-%m-%d')
         resources = form.resources.data
         
         lesson = Lesson(
             title=title,
             summary=summary,
-            start_date=date,
-            end_date=date,
+            date=date,
             user_id=user.id
         )
 
@@ -411,8 +411,7 @@ def handle_edit_lesson_form(lesson_id):
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
-        lesson.start_date = form.start_date.data.strftime('%Y-%m-%d')
-        lesson.end_date = form.end_date.data.strftime('%Y-%m-%d')
+        lesson.date = form.date.data.strftime('%Y-%m-%d')
         lesson.resources = form.resources.data
 
         db.session.commit()
@@ -549,7 +548,10 @@ def add_resource():
     db.session.add(new_resource)
     db.session.commit()
 
-    return redirect(f"/users/{user.id}", user=user)
+    serialized = serialize_resource(new_resource)
+
+    #return redirect(f"/users/{user.id}", user=user)
+    return (jsonify(resource=serialized), 201)
 
 
 

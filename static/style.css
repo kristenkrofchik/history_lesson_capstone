@@ -14,11 +14,13 @@ html {
 }
 
 a {
-    color: #ded7c9;
+    color: #272016;
+    text-decoration: none;
 }
 
 a:hover {
-    color: #ccc0ab;
+    color: #3b3424;
+    text-decoration: none;
 }
 
 .calendarContainer {
@@ -119,6 +121,11 @@ a:hover {
 
 .calendarLink {
     font-size: .75rem;
+    color: #ded7c9;
+    }
+    
+.calendarLink:hover {
+    color: #ccc0ab;
 }
 
 .nav-link {

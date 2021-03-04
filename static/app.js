@@ -28,7 +28,7 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources/add" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-primary addResource" formmethod="post">Add Resource</a></p>`;
+            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources/add" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource" formmethod="post">Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }

@@ -53,7 +53,7 @@ class User(db.Model):
     lesson = db.relationship("Lesson", backref="user", cascade="all,delete")
 
     @classmethod
-    def signup(cls, username, password, email):
+    def signup(cls, username, password, email, first_name, last_name):
         """Signs up user for profile.
 
         Hashes password and adds user to database.
@@ -65,6 +65,8 @@ class User(db.Model):
             username=username,
             password=hashed_pwd,
             email=email,
+            first_name=first_name,
+            last_name=last_name
         )
 
         db.session.add(user)
