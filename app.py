@@ -124,19 +124,26 @@ def show_users():
     """Have to add authentication so if not that user you can see profile but not edit it"""
     """add search function for users"""
 
-    user_id = session['id']
-    user = User.query.get_or_404(user_id)
+    if 'id' in session:
+        user_id = session['id']
+        user = User.query.get_or_404(user_id)
 
-    users = User.query.all()
-
-    return render_template('users/all.html', user=user, users=users)
-
+        users = User.query.all()
+        return render_template('users/all.html', user=user, users=users)
+        
+    else:
+        flash('Please login to view.')
+        return redirect('/login')
 
 @app.route(f"/users/<int:user_id>", methods=['GET', 'POST'])
 def show_user_home(user_id):
     """Show Logged In User Homepage"""
-
-    user = User.query.get_or_404(user_id)
+    if 'id' in session:
+        user = User.query.get_or_404(user_id)
+    
+    else:
+        flash('Please login to view.')
+        return redirect('/login')
 
     return render_template('users/home.html', user=user)
 
@@ -146,7 +153,8 @@ def show_user_profile(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     return render_template('users/profile.html', user=user)
 
@@ -157,7 +165,8 @@ def show_edit_user_form(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditUserForm(obj=user)
 
@@ -170,7 +179,8 @@ def handle_edit_user_form(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditUserForm(obj=user)
 
@@ -192,6 +202,10 @@ def handle_edit_user_form(user_id):
 @app.route(f"/users/<int:user_id>/edit_password", methods=['GET', 'POST'])
 def edit_user_password(user_id):
     """Show & Handle Form to change user password"""
+    if "id" not in session or user_id != session['id']:
+        flash('Please login to view.')
+        return redirect('/login')
+
     form = EditPasswordForm()
     user = User.query.get_or_404(user_id)
     username = user.username
@@ -220,7 +234,8 @@ def show_user_lessons(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     lessons = (Lesson.query.filter(Lesson.user_id == user_id)
                 .all())
@@ -234,7 +249,8 @@ def show_user_resources(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     resourcess = (Resource.query.filter(Resource.user_id == user_id)
                 .all())
@@ -248,7 +264,8 @@ def show_following(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     return render_template('users/following.html', user=user)
 
@@ -260,7 +277,8 @@ def users_followers(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     return render_template('users/followers.html', user=user)
 
@@ -271,7 +289,8 @@ def add_follow(follow_id):
     user = User.query.get_or_404(session['id'])
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     followed_user = User.query.get_or_404(follow_id)
     user.following.append(followed_user)
@@ -287,7 +306,8 @@ def stop_following(follow_id):
     user = User.query.get_or_404(session['id'])
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     followed_user = User.query.get(follow_id)
     user.following.remove(followed_user)
@@ -303,7 +323,8 @@ def show_add_lesson_form_from_cal():
     user = User.query.get_or_404(session['id'])
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = AddLessonForm()
 
@@ -317,7 +338,8 @@ def show_add_lesson_form(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = AddLessonForm()
 
@@ -335,7 +357,8 @@ def handle_add_lesson_form(user_id):
     user = User.query.get(user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = AddLessonForm()
 
@@ -367,6 +390,11 @@ def handle_add_lesson_form(user_id):
 @app.route(f"/lessons/<int:lesson_id>")
 def show_single_lesson(lesson_id):
     """Show information about a single lesson"""
+    
+    if "id" not in session:
+        flash('Please login to view.')
+        return redirect('/login')
+
     lesson = Lesson.query.get(lesson_id)
     user = lesson.user
 
@@ -380,7 +408,8 @@ def show_edit_lesson_form(lesson_id):
     user = User.query.get(lesson.user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditLessonForm(obj=lesson)
 
@@ -399,7 +428,8 @@ def handle_edit_lesson_form(lesson_id):
     user = User.query.get(lesson.user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditLessonForm(obj=lesson)
 
@@ -428,7 +458,8 @@ def delete_lesson(lesson_id):
     user = lesson.user
     
     if "id" not in session or lesson.user_id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     db.session.delete(lesson)
     db.session.commit()
@@ -450,7 +481,8 @@ def show_edit_resource_form(resource_id):
     user = User.query.get(resource.user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditResourceForm(obj=resource)
 
@@ -468,7 +500,8 @@ def handle_edit_resource_form(resource_id):
     user = User.query.get(resource.user_id)
 
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     form = EditResourceForm(obj=resource)
 
@@ -496,7 +529,8 @@ def delete_resource(resource_id):
     user = User.query.get(resource.user_id)
     
     if "id" not in session or user.id != session['id']:
-        raise Unauthorized()
+        flash('Please login to view.')
+        return redirect('/login')
 
     db.session.delete(resource)
     db.session.commit()
