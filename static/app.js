@@ -28,7 +28,7 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources/add" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource" formmethod="post">Add Resource</a></p>`;
+            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource" formmethod="post">Add Resource</a></p>`;
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
@@ -47,7 +47,7 @@ window.onload = function() {
                 url: resourceUrl
             })
 
-        axios.post(`http://127.0.0.1:5000/api/resources/add`, {json})
+        axios.post(`http://127.0.0.1:5000/api/resources`, {json})
             .then(response => {
                 console.log(response);
         })

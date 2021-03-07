@@ -2,14 +2,16 @@ import os
 
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from werkzeug.exceptions import Unauthorized
+#from werkzeug.exceptions import Unauthorized
 from sqlalchemy.exc import IntegrityError
+from flask_cors import CORS
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm, EditPasswordForm
 from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
@@ -568,24 +570,25 @@ def jsonify_lesson_data():
 """
 
 
-@app.route("/api/resources/add", methods=['GET', 'POST'])
+@app.route("/api/resources", methods=['GET', 'POST'])
 def add_resource():
     user = User.query.get_or_404(session['id'])
+    resources = Resource.query.all()
 
-    id = request.json["id"]
-    title = request.json["title"]
-    description = request.json["description"]
-    url = request.json["url"]
+    if request.method == 'GET':
+        return jsonify(resources)
+    elif request.method == 'POST':
+        id = request.json["id"]
+        title = request.json["title"]
+        description = request.json["description"]
+        url = request.json["url"]
 
-    new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
+        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
     
-    db.session.add(new_resource)
-    db.session.commit()
+        db.session.add(new_resource)
+        db.session.commit()
 
-    serialized = serialize_resource(new_resource)
-
-    #return redirect(f"/users/{user.id}", user=user)
-    return (jsonify(resource=serialized), 201)
+        return (jsonify(new_resource=serialized), 201)
 
 
 
