@@ -470,7 +470,7 @@ def delete_lesson(lesson_id):
 
 """Resource routes"""
 
-@app.route("/resources/search", methods=['GET'])
+@app.route("/resources/search", methods=['GET', 'POST'])
 def show_resource_search_page():
     """show resource search form, where js code will show search results from 3rd party API"""
     user = User.query.get_or_404(session['id'])
@@ -570,7 +570,7 @@ def jsonify_lesson_data():
 """
 
 
-@app.route("/api/resources", methods=['POST'])
+@app.route("/api/resources", methods=['GET', 'POST'])
 def add_resource():
     user = User.query.get_or_404(session['id'])
     resources = Resource.query.all()
@@ -588,7 +588,7 @@ def add_resource():
         db.session.add(new_resource)
         db.session.commit()
 
-        return (jsonify(new_resource=serialized), 201)
+        return redirect(f"users/resources.html", user=user)
 
 
 

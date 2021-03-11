@@ -28,13 +28,15 @@ window.onload = function() {
 
         for(let item of results) {
             itemDisplay = document.createElement('li');
-            itemDisplay.innerHTML = `<a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource" formmethod="post">Add Resource</a></p>`;
+            
+            itemDisplay.innerHTML = `<form method="POST" action="/api/resources"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><button class="btn btn-secondary btn-sm m-1y addResource" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}">Add Resource</button></form>`
+     
             resourceSearchResults.appendChild(itemDisplay);
         }
     }
 
     resourceSearchResults.addEventListener('click', function(ev) {
-        if(ev.target.tagName === 'A') {
+        if(ev.target.tagName === 'button') {
             const resourceId = ev.target.dataset.id;
             const resourceTitle = ev.target.dataset.title;
             const resourceDescription = ev.target.dataset.description;
@@ -84,6 +86,9 @@ newLessonButton.addEventListener('click', function(ev) {
     
 
 })*/
+
+/*itemDisplay.innerHTML = `<form method="post"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource">Add Resource</a></p></form>`;
+            resourceSearchResults.appendChild(itemDisplay);*/
 
 
 
