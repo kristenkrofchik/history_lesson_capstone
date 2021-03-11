@@ -14,7 +14,7 @@ html {
 }
 
 a {
-    color: #272016;
+    color: #FBFFEB;
     text-decoration: none;
 }
 
@@ -28,7 +28,7 @@ a:hover {
     height: 60%;
     background-image: url("https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80");
     color: #FBFFEB;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }

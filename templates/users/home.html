@@ -9,7 +9,7 @@
   {% if session['id'] == user.id %}
     <h1>Welcome {{user.username}}!</h1>
     
-    <div class="calendarContainer">
+    <div class="container calendarContainer">
       <div class="calendar">
         <div class="month">
           <i class="fas fa-angle-left prev"></i>
@@ -20,13 +20,13 @@
           <i class="fas fa-angle-right next"></i>
       </div>
       <div class="weekdays">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tues</div>
-        <div>Wed</div>
-        <div>Thurs</div>
-        <div>Fri</div>
-        <div>Sat</div>
+        <div class="col">Sun</div>
+        <div class="col">Mon</div>
+        <div class="col">Tues</div>
+        <div class="col">Wed</div>
+        <div class="col">Thurs</div>
+        <div class="col">Fri</div>
+        <div class="col">Sat</div>
         </div>
         <div class="days">
         </div>

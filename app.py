@@ -575,6 +575,10 @@ def add_resource():
     user = User.query.get_or_404(session['id'])
     resources = Resource.query.all()
 
+    if "id" not in session or user.id != session['id']:
+        flash('Please login to view.')
+        return redirect('/login')
+
     if request.method == 'GET':
         return jsonify(resources)
     elif request.method == 'POST':
