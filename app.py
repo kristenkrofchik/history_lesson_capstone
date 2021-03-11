@@ -570,7 +570,7 @@ def jsonify_lesson_data():
 """
 
 
-@app.route("/api/resources", methods=['GET', 'POST'])
+@app.route("/api/resources", methods=['POST'])
 def add_resource():
     user = User.query.get_or_404(session['id'])
     resources = Resource.query.all()

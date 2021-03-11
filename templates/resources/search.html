@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{user.id}} Resource Search
+Resource Search
 {% endblock %}
 
 {% block content %}
 
-<form methods="get post" action="/resources/search-results" id="searchForm">
+<form id="searchForm">
     <label for="searchTerm"></label>
     <input type="text" placeholder="Search for Primary Resources" id="searchTerm" name="searchTerm">
     <input type="submit" class = "btn btn-secondary btn-sm m-1" value="Submit">
