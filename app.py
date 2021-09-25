@@ -122,7 +122,7 @@ def logout_user():
 
 @app.route('/users')
 def show_users():
-    """Browse all users, search users"""
+    """Browse all users"""
     """Have to add authentication so if not that user you can see profile but not edit it"""
     """add search function for users"""
 
@@ -579,13 +579,15 @@ def add_resource():
         flash('Please login to view.')
         return redirect('/login')
 
+
     if request.method == 'GET':
         return jsonify(resources)
     elif request.method == 'POST':
-        id = request.json["id"]
-        title = request.json["title"]
-        description = request.json["description"]
-        url = request.json["url"]
+        data = request.get_json(force=True)
+        id = data['id']
+        title = data["title"]
+        description = data["description"]
+        url = data["url"]
 
         new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
     

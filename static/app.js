@@ -35,21 +35,21 @@ window.onload = function() {
         }
     }
 
-    resourceSearchResults.addEventListener('click', function(ev) {
-        if(ev.target.tagName === 'button') {
-            const resourceId = ev.target.dataset.id;
-            const resourceTitle = ev.target.dataset.title;
-            const resourceDescription = ev.target.dataset.description;
-            const resourceUrl = ev.target.dataset.url;
+    document.body.addEventListener('click', function(event) {
+        if(event.target.className === 'btn btn-secondary btn-sm m-1y addResource') {
+            const resourceId = event.target.dataset['id'];
+            const resourceTitle = event.target.dataset['title'];
+            const resourceDescription = event.target.dataset['description'];
+            const resourceUrl = event.target.dataset['url'];
 
-            let json = JSON.stringify({
-                id: resourceId,
-                title: resourceTitle,
-                description: resourceDescription,
-                url: resourceUrl
-            })
+            let resource = {};
+            resource[id] = resourceId;
+            resource[title] = resourceTitle;
+            resource[description] = resourceDescription;
+            resource[url] = resourceUrl;
 
-        axios.post(`http://127.0.0.1:5000/api/resources`, {json})
+        axios.post(`http://127.0.0.1:5000/api/resources`, JSON.stringify(resource), {headers: {"content-type": "application/json"},
+        })
             .then(response => {
                 console.log(response);
         })
