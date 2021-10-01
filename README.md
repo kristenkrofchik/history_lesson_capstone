@@ -2,6 +2,8 @@
 
 History Lesson is an app built with PostgreSQL, Python and Flask that allows history teachers to plan lessons with primary resources from the Library of Congress API.
 
+[Library of Congress API]([PostgreSQL](https://www.postgresql.org/docs/))
+
 ### Status
 This project is still in process. Version 1 will be deployed in October, 2021. 
 
