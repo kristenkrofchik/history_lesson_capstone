@@ -335,7 +335,7 @@ def show_add_lesson_form(user_id):
 
     form.resources.choices = resources
 
-    return render_template("lessons/new.html", form=form)
+    return render_template("lessons/new.html", user=user, form=form)
 
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['POST'])
@@ -373,7 +373,7 @@ def handle_add_lesson_form(user_id):
         return redirect(f"/users/{user_id}")
 
     else:
-        return render_template("lessons/new.html", form=form)
+        return render_template("lessons/new.html", user=user, form=form)
 
 @app.route(f"/lessons/<int:lesson_id>")
 def show_single_lesson(lesson_id):
