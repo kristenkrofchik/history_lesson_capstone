@@ -25,20 +25,22 @@ const renderCalendar = () => {
 
     let days = '';
 
+    let userId = parseInt(location.pathname.split('/')[2]);
+
     for(let x = firstDayIndex; x > 0; x--) {
-        days += `<div class="prev-date calDate"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+        days += `<div class="prev-date calDate"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
     }
 
     for(let i = 1; i <= lastDay; i++) {
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
-            days += `<div class="today calDate"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+            days += `<div class="today calDate"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
         } else {
-            days += `<div class="calDate"><h5>${i}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+            days += `<div class="calDate"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
         }
     }
 
     for(let j = 1; j <= nextDays; j++) {
-        days += `<div class="next-date calDate"><h5>${j}<h5><a class="calendarLink" href="/lessons/new">Add Lesson</></div>`;
+        days += `<div class="next-date calDate"><h5>${j}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
         monthDays.innerHTML = days;
     }
 }

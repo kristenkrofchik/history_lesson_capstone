@@ -319,20 +319,6 @@ def stop_following(follow_id):
 
 """Lesson Routes"""
 
-@app.route('/lessons/new')
-def show_add_lesson_form_from_cal():
-    """show form for adding a lesson plan from js calendar link"""
-    user = User.query.get_or_404(session['id'])
-
-    if "id" not in session or user.id != session['id']:
-        flash('Please login to view.')
-        return redirect('/login')
-
-    form = AddLessonForm()
-
-    return render_template("lessons/new.html", form=form, user=user)
-
-
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
     """show form for adding a lesson plan"""
@@ -378,13 +364,13 @@ def handle_add_lesson_form(user_id):
             title=title,
             summary=summary,
             date=date,
-            user_id=user.id
+            user_id=user_id
         )
 
         db.session.add(lesson)
         db.session.commit()
 
-        return redirect(f"/users/{user.id}")
+        return redirect(f"/users/{user_id}")
 
     else:
         return render_template("lessons/new.html", form=form)
