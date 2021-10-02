@@ -319,6 +319,14 @@ def stop_following(follow_id):
 
 """Lesson Routes"""
 
+@app.route(f"/users/<int:user_id>/lessons", methods=['GET'])
+def show_all_lessons(user_id):
+    """show list of all user's lesson plans. not a private route"""
+
+    user = User.query.get(user_id)
+
+    return render_template('users/lessons.html', user=user)
+
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
     """show form for adding a lesson plan"""
@@ -370,7 +378,7 @@ def handle_add_lesson_form(user_id):
         db.session.add(lesson)
         db.session.commit()
 
-        return redirect(f"/users/{user_id}")
+        return redirect(f"/users/{user_id}/lessons")
 
     else:
         return render_template("lessons/new.html", user=user, form=form)
