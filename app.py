@@ -350,7 +350,7 @@ def handle_add_lesson_form(user_id):
 
     form = AddLessonForm()
 
-    resources = [(resource.title, resource.url) for resource in Resource.query.all()]
+    resources = [(resource.id, resource.title) for resource in Resource.query.all()]
 
     form.resources.choices = resources
 
