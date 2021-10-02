@@ -134,7 +134,7 @@ class Lesson(db.Model):
 
     summary = db.Column(db.Text)
 
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.Date, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
