@@ -6,6 +6,8 @@
 
 {% block content %}
 
+  <div class="content">
+
     <h1>{{ lesson.title }}</h1>
 
     <p> 
@@ -14,8 +16,7 @@
 
     {% if session['id'] == user.id %}
     <ul>
-        <li>{{ lesson.start_date }}</li>
-        <li>{{ lesson.end_date }}</li>
+        <li>{{ lesson.date }}</li>
     </ul>
 
     <p>
@@ -35,7 +36,8 @@
         </a>
     </p>
 
-    {% endif %}
+  {% endif %}
 
+  </div>
 
 {% endblock %}

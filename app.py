@@ -422,7 +422,6 @@ def handle_edit_lesson_form(lesson_id):
         lesson.title = form.title.data
         lesson.summary = form.summary.data
         lesson.date = form.date.data.strftime('%Y-%m-%d')
-        ##lesson.resources = form.resources.data
         for resource_title in form.resources.data:
             if lesson.resources:
                 lesson.resources.append(Resource.query.get(resource_title))
