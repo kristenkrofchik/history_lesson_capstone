@@ -98,7 +98,7 @@ class AddLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary (Optional)",
     )
-    date = DateField(
+    add_lesson_date = DateField(
         "When will the lesson occur?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )
@@ -115,7 +115,7 @@ class EditLessonForm(FlaskForm):
     summary = TextAreaField(
         "Summary",
     )
-    date = DateField(
+    edit_lesson_date = DateField(
         "When will the lesson occur?", format='%Y-%m-%d',
         validators=[InputRequired()],
     )

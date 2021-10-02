@@ -14,11 +14,9 @@
       {{ lesson.summary }}
     </p>
 
-    {% if session['id'] == user.id %}
-    <ul>
-        <li>{{ lesson.date }}</li>
-    </ul>
+    <p class="lesson-date">{{ lesson.date }}</p>
 
+    {% if session['id'] == user.id %}
     <p>
         <a href="/lessons/{{ lesson.id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
           Edit Lesson

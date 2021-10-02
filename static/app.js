@@ -65,35 +65,16 @@ window.onload = function() {
     })
 }
 
-/*const newLessonButton = document.querySelector(".newLessonButton")
+//this code will add info to specific date on js calender when new lesson is added to that date
 
-newLessonButton.addEventListener('click', function(ev) {
-    ev.preventDefault();
+const newLessonButton = document.querySelector(".newLessonButton")
 
-    const lessonTitle = document.querySelector(".title").value;
-    const lessonSummary = document.querySelector(".summary").value;
-    const lessonDate = document.querySelector(".date").value;
+newLessonButton.addEventListener('click', function() {
+    const lessonDate = document.getElementById("add_lesson_date").value;
+    console.log(lessonDate);
 
-    let json = JSON.stringify({
-        title: lessonTitle,
-        summary: lessonSummary,
-        date: lessonDate,
-    })
+})
 
-    axios.post(`http://127.0.0.1:5000/api/lessons/add`, {json})
-            .then(response => {
-                console.log(response);
-        })
-            .catch(error => {
-                console.log(error);
-            });
-    
-    
-
-})*/
-
-/*itemDisplay.innerHTML = `<form method="post"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><p><a href="/api/resources" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}" class="btn btn-secondary btn-sm m-1 addResource">Add Resource</a></p></form>`;
-            resourceSearchResults.appendChild(itemDisplay);*/
 
 
 

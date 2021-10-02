@@ -27,7 +27,11 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
+
+
 """Register, Login, Logout Routes"""
+
+
 
 @app.route('/', methods=['GET'])
 def homepage():
@@ -118,7 +122,11 @@ def logout_user():
     session.pop("id")
     return redirect("/login")
 
+
+
 """Users/User Routes"""
+
+
 
 @app.route('/users')
 def show_users():
@@ -311,7 +319,11 @@ def stop_following(follow_id):
 
     return redirect(f"/users/{user.id}/following")
 
+
+
 """Lesson Routes"""
+
+
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
@@ -351,7 +363,7 @@ def handle_add_lesson_form(user_id):
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
-        date = form.date.data.strftime('%Y-%m-%d')
+        date = form.add_lesson_date.data.strftime('%Y-%m-%d')
         resources = form.resources.data
         
         lesson = Lesson(
@@ -421,7 +433,7 @@ def handle_edit_lesson_form(lesson_id):
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
-        lesson.date = form.date.data.strftime('%Y-%m-%d')
+        lesson.date = form.edit_lesson_date.data.strftime('%Y-%m-%d')
         for resource_title in form.resources.data:
             if lesson.resources:
                 lesson.resources.append(Resource.query.get(resource_title))
