@@ -66,9 +66,9 @@ renderCalendar();
 
 //make axios request ti iur database to get the startdate
 
-document.querySelector('.days').addEventListener('click', function(ev) {
+/*document.querySelector('.days').addEventListener('click', function(ev) {
     if(ev.target.classList.contains('calDate')) {
         ev.target.classList.add('hasLesson')
     }
-});
+});*/
 
