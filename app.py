@@ -231,16 +231,11 @@ def edit_user_password(user_id):
 
 @app.route(f"/users/<int:user_id>/lessons")
 def show_user_lessons(user_id):
-    """Show a list of user lessons (seperate from user home which will show all scheduled lessons on a calendar. this will be a list of lessons). page is only accessible to the logged in user."""
+    """Show a list of user lessons (seperate from user home which will show all scheduled lessons on a calendar. this will be a list of lessons)."""
 
     user = User.query.get(user_id)
 
-    if "id" not in session or user.id != session['id']:
-        flash('Please login to view.')
-        return redirect('/login')
-
-    lessons = (Lesson.query.filter(Lesson.user_id == user_id)
-                .all())
+    lessons = (Lesson.query.filter(Lesson.user_id == user_id).all())
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
 
@@ -254,8 +249,7 @@ def show_user_resources(user_id):
         flash('Please login to view.')
         return redirect('/login')
 
-    resourcess = (Resource.query.filter(Resource.user_id == user_id)
-                .all())
+    resourcess = (Resource.query.filter(Resource.user_id == user_id).all())
     
     return render_template('users/resources.html', user=user, resources=resourcess)
 
@@ -319,14 +313,6 @@ def stop_following(follow_id):
 
 """Lesson Routes"""
 
-@app.route(f"/users/<int:user_id>/lessons", methods=['GET'])
-def show_all_lessons(user_id):
-    """show list of all user's lesson plans. not a private route"""
-
-    user = User.query.get(user_id)
-
-    return render_template('users/lessons.html', user=user)
-
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['GET'])
 def show_add_lesson_form(user_id):
     """show form for adding a lesson plan"""
@@ -339,7 +325,7 @@ def show_add_lesson_form(user_id):
 
     form = AddLessonForm()
 
-    resources = [(resource.id, resource.title) for resource in Resource.query.all()]
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id).all()]
 
     form.resources.choices = resources
 
@@ -358,7 +344,7 @@ def handle_add_lesson_form(user_id):
 
     form = AddLessonForm()
 
-    resources = [(resource.id, resource.title) for resource in Resource.query.all()]
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id).all()]
 
     form.resources.choices = resources
 
@@ -409,12 +395,11 @@ def show_edit_lesson_form(lesson_id):
 
     form = EditLessonForm(obj=lesson)
 
-    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id)
-                .all()]
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id).all()]
 
     form.resources.choices = resources
 
-    return render_template('/lessons/edit.html', lesson=lesson, form=form)
+    return render_template('/lessons/edit.html', lesson=lesson, user=user, form=form)
 
 
 @app.route(f"/lessons/<int:lesson_id>/edit", methods=['POST'])
@@ -429,22 +414,24 @@ def handle_edit_lesson_form(lesson_id):
 
     form = EditLessonForm(obj=lesson)
 
-    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id)
-                .all()]
+    resources = [(resource.title, resource.url) for resource in Resource.query.filter(Resource.user_id == user.id).all()]
 
-    form.resourcess.choices = resources
+    form.resources.choices = resources
 
     if form.validate_on_submit():
         lesson.title = form.title.data
         lesson.summary = form.summary.data
         lesson.date = form.date.data.strftime('%Y-%m-%d')
-        lesson.resources = form.resources.data
+        ##lesson.resources = form.resources.data
+        for resource_title in form.resources.data:
+            if lesson.resources:
+                lesson.resources.append(Resource.query.get(resource_title))
 
         db.session.commit()
 
         return redirect(f"/lessons/{lesson.id}")
 
-    return render_template("lessons/edit.html", form=form, lesson=lesson)
+    return render_template("lessons/edit.html", form=form, lesson=lesson, user=user)
 
 @app.route("/lessons/<int:lesson_id>/delete", methods=["POST"])
 def delete_lesson(lesson_id):
@@ -482,8 +469,7 @@ def show_edit_resource_form(resource_id):
 
     form = EditResourceForm(obj=resource)
 
-    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id)
-                .all()]
+    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
 
     form.lesson.choices = lesson
 
@@ -501,8 +487,7 @@ def handle_edit_resource_form(resource_id):
 
     form = EditResourceForm(obj=resource)
 
-    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id)
-                .all()]
+    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
 
     form.lesson.choices = lesson
 

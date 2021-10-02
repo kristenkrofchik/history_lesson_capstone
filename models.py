@@ -52,6 +52,8 @@ class User(db.Model):
 
     lesson = db.relationship("Lesson", backref="user", cascade="all,delete")
 
+    resource = db.relationship("Resource", backref="user", cascade="all,delete")
+
     @classmethod
     def signup(cls, username, password, email, first_name, last_name):
         """Signs up user for profile.
@@ -171,6 +173,15 @@ class LessonResource(db.Model):
     __tablename__ = "lessons_resources"
 
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), primary_key=True)
+    
+    resource_id = db.Column(db.Text, db.ForeignKey('resources.id'), primary_key=True)
+
+class UserResource(db.Model):
+    """Ties Between a user and its resources"""
+
+    __tablename__ = "users_resources"
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     
     resource_id = db.Column(db.Text, db.ForeignKey('resources.id'), primary_key=True)
 
