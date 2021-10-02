@@ -335,7 +335,7 @@ def show_add_lesson_form(user_id):
 
     form.resources.choices = resources
 
-    return render_template("lessons/new.html", user=user, form=form)
+    return render_template("lessons/new.html", user=user, form=form, resources=resources)
 
 
 @app.route(f"/users/<int:user_id>/lessons/new", methods=['POST'])

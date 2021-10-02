@@ -103,7 +103,7 @@ class AddLessonForm(FlaskForm):
         validators=[InputRequired()],
     )
     resources = SelectField(
-        "Add Primary Resource", coerce=int
+        "Add Primary Resource (Optional)", coerce=int
     )
 
 class EditLessonForm(FlaskForm):

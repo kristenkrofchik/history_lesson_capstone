@@ -1,3 +1,5 @@
+//this code creates a vanilla js calendar and adds it to the user's home page.
+//adds an 'Add Lesson' link to each calendar day, sends user to a form to add a Lesson Plan
 
 const date = new Date();
 
