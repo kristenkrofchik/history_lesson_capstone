@@ -76,11 +76,13 @@ let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('e
 
 function showHasEvents() {
     for(let i = 0; i < events.length; i++) {
-        let day = document.querySelector(`.${events[i].date}`);
-        let htmlString = '<p>Lesson planned!</p>';
+        let day = document.getElementsByClassName(`${events[i].date}`)[0];
+        let htmlString = '<p class="addLessonText">Lesson planned!</p>';
         day.insertAdjacentHTML('beforeend', htmlString);
     }
 }
+
+showHasEvents();
 
 
 

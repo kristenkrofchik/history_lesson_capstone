@@ -122,10 +122,14 @@ a:hover {
 .calendarLink {
     font-size: .75rem;
     color: #ded7c9;
-    }
+}
     
 .calendarLink:hover {
     color: #ccc0ab;
+}
+
+.addLessonText {
+    font-size: .65rem;
 }
 
 .nav-link {
