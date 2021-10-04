@@ -1,10 +1,6 @@
 //this code creates a vanilla js calendar and adds it to the user's home page.
-//adds an 'Add Lesson' link to each calendar day, sends user to a form to add a Lesson Plan
-
+console.log(localStorage);
 const date = new Date();
-
-
-
 
 const renderCalendar = () => {
     date.setDate(1);
@@ -26,10 +22,12 @@ const renderCalendar = () => {
 
     document.querySelector('.date h1').innerHTML = months[date.getMonth()];
 
+    //grab current month to add to class
     let currentMonth = monthsNumber[date.getMonth()];
 
     document.querySelector('.date p').innerHTML = new Date().toDateString();
 
+    //grab current year to add to class
     let currentYear = document.querySelector('.date p').innerHTML.slice(-4);
 
     let days = '';
@@ -74,14 +72,15 @@ document.querySelector('.next').addEventListener('click', () => {
 
 renderCalendar();
 
-//add onclick event for addLesson button. add the class "seeLessons" to that day.
-//if a date has seeLessons just maybe change color and link to lesson plan
+let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
-//make axios request ti iur database to get the startdate
-
-/*document.querySelector('.days').addEventListener('click', function(ev) {
-    if(ev.target.classList.contains('calDate')) {
-        ev.target.classList.add('hasLesson')
+function showHasEvents() {
+    for(let i = 0; i < events.length; i++) {
+        let day = document.querySelector(`.${events[i].date}`);
+        let htmlString = '<p>Lesson planned!</p>';
+        day.insertAdjacentHTML('beforeend', htmlString);
     }
-});*/
+}
+
+
 

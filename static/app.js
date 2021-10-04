@@ -1,3 +1,4 @@
+
 window.onload = function() {
     const resourceSearchResults = document.querySelector('#resourceSearchResults');
     const searchTerm = document.querySelector('#searchTerm');
@@ -65,14 +66,20 @@ window.onload = function() {
     })
 }
 
-//this code will add info to specific date on js calender when new lesson is added to that date
+//when lesson is submitted, add date to localstorage so we can use it in calendar.js to change calendar html
 
-const newLessonButton = document.querySelector(".newLessonButton")
+const newLessonForm = document.querySelector(".new-lesson-form")
 
-newLessonButton.addEventListener('click', function() {
-    const lessonDate = document.getElementById("add_lesson_date").value;
-    console.log(lessonDate);
-})
+newLessonForm.addEventListener('submit', function() {
+    let lessonDate = document.getElementById("add_lesson_date").value;
+    let events = [];
+    events.push({
+        date: lessonDate
+    });
+    localStorage.setItem('events', JSON.stringify(events));
+});
+
+
 
 
 
