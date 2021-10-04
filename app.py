@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 #from werkzeug.exceptions import Unauthorized
+from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
 
@@ -243,7 +244,7 @@ def show_user_lessons(user_id):
 
     user = User.query.get(user_id)
 
-    lessons = (Lesson.query.filter(Lesson.user_id == user_id).all())
+    lessons = (Lesson.query.filter(Lesson.user_id == user_id).order_by(asc(Lesson.date)).all())
     
     return render_template('users/lessons.html', user=user, lessons=lessons)
 

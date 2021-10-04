@@ -72,6 +72,10 @@ document.querySelector('.next').addEventListener('click', () => {
 
 renderCalendar();
 
+//get dates with events from local storage.
+//loop through events and add 'Lesson planned' to any day with event
+//further functionality-- add link to lesson. need to store lesson id in localstorage
+
 let events = localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [];
 
 function showHasEvents() {
