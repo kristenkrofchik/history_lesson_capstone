@@ -4,6 +4,8 @@
 const date = new Date();
 
 
+
+
 const renderCalendar = () => {
     date.setDate(1);
 
@@ -20,24 +22,35 @@ const renderCalendar = () => {
     const nextDays = 7 - lastDayIndex - 1;
 
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthsNumber = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
     document.querySelector('.date h1').innerHTML = months[date.getMonth()];
 
+    let currentMonth = monthsNumber[date.getMonth()];
+
     document.querySelector('.date p').innerHTML = new Date().toDateString();
+
+    let currentYear = document.querySelector('.date p').innerHTML.slice(-4);
 
     let days = '';
 
     let userId = parseInt(location.pathname.split('/')[2]);
 
     for(let x = firstDayIndex; x > 0; x--) {
-        days += `<div class="prev-date calDate"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
+        days += `<div class="prev-date calDate ${x}"><h5>${prevLastDay - x + 1}</h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
     }
 
     for(let i = 1; i <= lastDay; i++) {
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
-            days += `<div class="today calDate"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
+            if(i < 10) {
+                i = '0' + i;
+            }
+            days += `<div class="today calDate ${currentYear}-${currentMonth}-${i}"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
         } else {
-            days += `<div class="calDate"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
+            if(i < 10) {
+                i = '0' + i;
+            }
+            days += `<div class="calDate ${currentYear}-${currentMonth}-${i}"><h5>${i}<h5><a class="calendarLink" href="/users/${userId}/lessons/new">Add Lesson</></div>`;
         }
     }
 

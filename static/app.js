@@ -71,8 +71,7 @@ const newLessonButton = document.querySelector(".newLessonButton")
 
 newLessonButton.addEventListener('click', function() {
     const lessonDate = document.getElementById("add_lesson_date").value;
-    const dateArr = lessonDate.split('-');
-
+    console.log(lessonDate);
 })
 
 
