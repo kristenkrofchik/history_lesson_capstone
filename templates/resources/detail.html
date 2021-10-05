@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ resource.title }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="content">
+
+    <h1>{{ resource.title }}</h1>
+
+    <p> 
+      {{ <resource class="description"></resource> }}
+    </p>
+
+    {% if session['id'] == user.id %}
+    <p>
+        <a href="/resources/{{ resource.id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
+          Edit Resource
+        </a>
+    </p>
+    
+    <form method="POST" action="/resources/{{ resource.id }}/delete">
+        <button class="btn btn-secondary btn-sm m-1">Delete Resource</button>
+    </form>
+
+
+    <p>
+        <a href="/users/{{ user.id }}/resources"" class="btn btn-secondary btn-sm m-1y">
+      All Resources
+        </a>
+    </p>
+
+  {% endif %}
+
+  </div>
+
+{% endblock %}

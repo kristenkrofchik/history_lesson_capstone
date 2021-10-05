@@ -393,7 +393,7 @@ def show_single_lesson(lesson_id):
         return redirect('/login')
 
     lesson = Lesson.query.get(lesson_id)
-    user = lesson.user
+    user = User.query.get(lesson.user_id)
 
     return render_template('/lessons/detail.html', lesson=lesson, user=user)
 
@@ -474,6 +474,19 @@ def show_resource_search_page():
 
     return render_template("resources/search.html", user=user)
 
+@app.route(f"/resources/<int:resource_id>")
+def show_single_resource(resource_id):
+    """Show information about a single resource"""
+    
+    if "id" not in session:
+        flash('Please login to view.')
+        return redirect('/login')
+
+    resource = Resource.query.get(resource_id)
+    user = User.query.get(resource.user_id)
+
+    return render_template('/resources/detail.html', resource=resource, user=user)
+
 @app.route("/resources/<resource_id>/edit", methods=["GET"])
 def show_edit_resource_form(resource_id):
     """Show resource edit form"""
@@ -504,9 +517,9 @@ def handle_edit_resource_form(resource_id):
 
     form = EditResourceForm(obj=resource)
 
-    lessons = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
+    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
 
-    form.lesson.choices = lessons
+    form.lesson.choices = lesson
 
     if form.validate_on_submit():
         resource.title = form.title.data
