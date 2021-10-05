@@ -15,9 +15,9 @@
 <h1>Resources</h1>
 
 <div class="col-sm-6">
-    <ul class="list-group" id="lessons">
+    <ul class="list-group" id="resources">
         {% for resource in resources %}
-        <li class="list-group-item"><a href="/lessons/{{ lesson.id }}" class="lesson-link"/>
+        <li class="list-group-item"><a href="/resources/{{ resource.id }}" class="resource-link"/>
             <h3>{{resource.title}}</h3>
                 <ul>
                     <li>{{resource.description}}</li>
@@ -25,7 +25,7 @@
                 </ul>
                 <p>
                     <a href="/resources/{{ resource.id }}/edit" class="btn btn-secondary btn-sm m-1">
-                      Edit Lesson
+                      Edit Resource
                     </a>
                 </p>
                 <form method="POST" action="/resources/{{ resource.id }}/delete">

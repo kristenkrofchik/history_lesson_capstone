@@ -110,14 +110,13 @@ class EditLessonForm(FlaskForm):
     """Edit lesson plan, for logged in user"""
     title = StringField(
         "Lesson Name/Title",
-        validators=[InputRequired(), Length(min=1, max=75)],
+        validators=[Length(min=1, max=75)],
     )
     summary = TextAreaField(
         "Summary",
     )
     edit_lesson_date = DateField(
         "When will the lesson occur?", format='%Y-%m-%d',
-        validators=[InputRequired()],
     )
     resources = SelectField(
         "Add Primary Resource", choices=[], validate_choice=False
@@ -127,11 +126,11 @@ class EditResourceForm(FlaskForm):
     """Edit Resource from LOC API, inclduing adding more easy-to-read info (nickname)"""    
     title = StringField(
         "Resource Name/Title",
-        validators=[InputRequired(), Length(min=1, max=75)],
+        validators=[Length(min=1, max=75)],
     )
     description = TextAreaField(
         "Description (Optional)",
     )
     lesson = SelectField(
-        "Add to a Lesson Plan", coerce=int
+        "Add to a Lesson Plan", choices=[], validate_choice=False
     )

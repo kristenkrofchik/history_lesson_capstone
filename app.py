@@ -6,7 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect
+#from flask_wtf.csrf import CSRFProtect
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm, EditPasswordForm
 from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource
@@ -14,7 +14,7 @@ from models import db, connect_db, Follows, User, Lesson, Resource, serialize_re
 
 app = Flask(__name__)
 CORS(app)
-csrf = CSRFProtect(app)
+#csrf = CSRFProtect(app)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
@@ -260,9 +260,9 @@ def show_user_resources(user_id):
         flash('Please login to view.')
         return redirect('/login')
 
-    resourcess = (Resource.query.filter(Resource.user_id == user_id).all())
+    resources = (Resource.query.filter(Resource.user_id == user_id).all())
     
-    return render_template('users/resources.html', user=user, resources=resourcess)
+    return render_template('users/resources.html', user=user, resources=resources)
 
 @app.route('/users/<int:user_id>/following')
 def show_following(user_id):
@@ -476,6 +476,7 @@ def show_resource_search_page():
 
 @app.route("/resources/<resource_id>/edit", methods=["GET"])
 def show_edit_resource_form(resource_id):
+    """Show resource edit form"""
     resource = Resource.query.get(resource_id)
     user = User.query.get(resource.user_id)
 
@@ -489,7 +490,7 @@ def show_edit_resource_form(resource_id):
 
     form.lesson.choices = lesson
 
-    return render_template('/lessons/edit.html', resource=resource, form=form)
+    return render_template('/resources/edit.html', resource=resource, form=form, user=user)
 
 @app.route(f"/resources/<resource_id>/edit", methods=['POST'])
 def handle_edit_resource_form(resource_id):
@@ -503,20 +504,22 @@ def handle_edit_resource_form(resource_id):
 
     form = EditResourceForm(obj=resource)
 
-    lesson = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
+    lessons = [(lesson.id, lesson.title) for lesson in Lesson.query.filter(Lesson.user_id == user.id).all()]
 
-    form.lesson.choices = lesson
+    form.lesson.choices = lessons
 
     if form.validate_on_submit():
         resource.title = form.title.data
         resource.description = form.description.data
-        #resource.lesson = form.lesson.data
+        for lesson_title in form.lesson.data:
+            if resource.lessons:
+                resource.lessons.append(Lesson.query.get(lesson_title))
 
         db.session.commit()
 
-        return redirect(f"/user/{user.id}/resources")
+        return redirect(f"/resources/{resource.id}")
 
-    return render_template("resources/edit.html", form=form, resource=resource)
+    return render_template("resources/edit.html", form=form, resource=resource, user=user)
 
 @app.route(f"/resources/<resource_id>/delete", methods=['POST'])
 def delete_resource(resource_id):
@@ -559,14 +562,14 @@ def jsonify_lesson_data():
 
 
 @app.route("/api/resources", methods=['GET', 'POST'])
-@csrf.exempt  
+#@csrf.exempt  
 def add_resource():
-    #user = User.query.get_or_404(session['id'])
+    user = User.query.get_or_404(session['id'])
     resources = Resource.query.all()
 
-    #if "id" not in session or user.id != session['id']:
-     #   flash('Please login to view.')
-     #   return redirect('/login')
+    if "id" not in session or user.id != session['id']:
+       flash('Please login to view.')
+       return redirect('/login')
 
 
     if request.method == 'GET':
@@ -578,16 +581,19 @@ def add_resource():
         description = data["description"]
         url = data["url"]
 
-        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=4)
+        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
     
         db.session.add(new_resource)
         db.session.commit()
 
-        return redirect(f"users/resources.html")
+        return redirect(f"users/{user.id}/resources.html")
 
 
 """Common Error Handling"""
 
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template('errors/400.html'), 400
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -595,6 +601,10 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def server_error(e):
+    return render_template('errors/500.html'), 500
+
+@app.errorhandler(503)
+def service_unavailable(e):
     return render_template('errors/500.html'), 500
 
 
