@@ -6,6 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm, EditPasswordForm
 from models import db, connect_db, Follows, User, Lesson, Resource, serialize_resource
@@ -13,6 +14,7 @@ from models import db, connect_db, Follows, User, Lesson, Resource, serialize_re
 
 app = Flask(__name__)
 CORS(app)
+csrf = CSRFProtect(app)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
@@ -461,7 +463,9 @@ def delete_lesson(lesson_id):
 
     return redirect(f"/users/{user.id}/lessons")
 
+
 """Resource routes"""
+
 
 @app.route("/resources/search", methods=['GET', 'POST'])
 def show_resource_search_page():
@@ -534,13 +538,6 @@ def delete_resource(resource_id):
 
 """API ROUTES"""
 
-#@app.route("/api/users/<int:user_id>")
-#def jsonify_user_data(user_id):
-
-#    user = User.query.get(user_id)
-#    serialized = serialize_user(user)
-
-#    return jsonify(user=serialized)
 
 """
 @app.route("/api/lessons/add", methods=['GET', 'POST'])
@@ -562,13 +559,14 @@ def jsonify_lesson_data():
 
 
 @app.route("/api/resources", methods=['GET', 'POST'])
+@csrf.exempt  
 def add_resource():
-    user = User.query.get_or_404(session['id'])
+    #user = User.query.get_or_404(session['id'])
     resources = Resource.query.all()
 
-    if "id" not in session or user.id != session['id']:
-        flash('Please login to view.')
-        return redirect('/login')
+    #if "id" not in session or user.id != session['id']:
+     #   flash('Please login to view.')
+     #   return redirect('/login')
 
 
     if request.method == 'GET':
@@ -580,14 +578,16 @@ def add_resource():
         description = data["description"]
         url = data["url"]
 
-        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
+        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=4)
     
         db.session.add(new_resource)
         db.session.commit()
 
-        return redirect(f"users/resources.html", user=user)
+        return redirect(f"users/resources.html")
+
 
 """Common Error Handling"""
+
 
 @app.errorhandler(404)
 def page_not_found(e):

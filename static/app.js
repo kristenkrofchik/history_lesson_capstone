@@ -41,29 +41,26 @@ window.onload = function() {
 
     //this function adds a resource to the user's resource list on click of 'Add Resource' button
     //makes a post request to the Python API to add resource to database
-    document.body.addEventListener('click', function(event) {
-        if(event.target.className === 'btn btn-secondary btn-sm m-1y addResource') {
-            const resourceId = event.target.dataset['id'];
-            const resourceTitle = event.target.dataset['title'];
-            const resourceDescription = event.target.dataset['description'];
-            const resourceUrl = event.target.dataset['url'];
+    document.addEventListener('click', function(event) {
+        if(event.target.innerText === 'Add Resource') {
+        
+            let json = JSON.stringify({
+                id: this.dataset.id,
+                title: this.dataset.title,
+                description: this.datset.description,
+                url: this.dataset.url
+            })
 
-            let resource = {};
-            resource[id] = resourceId;
-            resource[title] = resourceTitle;
-            resource[description] = resourceDescription;
-            resource[url] = resourceUrl;
-
-        axios.post(`http://127.0.0.1:5000/api/resources`, JSON.stringify(resource), {headers: {"content-type": "application/json"},
-        })
-            .then(response => {
-                console.log(response);
-        })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-    })
+            axios.post(`http://127.0.0.1:5000/api/resources`, json, {headers: {"content-type": "application/json"},
+            })
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            }
+        });
 }
 
 //when lesson is submitted, add date to localstorage so we can use it in calendar.js to change calendar html

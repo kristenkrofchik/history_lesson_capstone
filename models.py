@@ -138,6 +138,8 @@ class Lesson(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
+    resource = db.relationship('Resource', secondary='lessons_resources', backref='lessons')
+
 
 class UserLesson(db.Model):
     """Ties Between a User (Teacher) and their Lessons"""
