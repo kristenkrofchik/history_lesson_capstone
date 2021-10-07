@@ -1,10 +1,15 @@
+import os
 from unittest import TestCase
-from app import app
-from flask import session
 
 app.config['TESTING'] = True
-
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
+app.config['WTF_CSRF_ENABLED'] = False]
+
+os.environ['DATABASE_URL'] = "postgresql:///history-lesson-test"
+
+from app import app
+
+db.create_all()
 
 class HistoryLessonAppTestCase(TestCase):
     """Test routes"""
@@ -24,10 +29,4 @@ class HistoryLessonAppTestCase(TestCase):
             self.assertIn('<h1>Register</h1>', html)
             
     
-    def test_register_form(self):
-        with app.test_client() as client:
-            resp = client.post('/register',
-                                data={'username': 'test', 'password': 'testtest', 'confirm': 'testtest', 'email': 'test@test.com'})
-
-            self.assertEqual(resp.status_code, 200)
 
