@@ -1,9 +1,10 @@
 import os
 from unittest import TestCase
+from models import db, connect_db, User
 
 app.config['TESTING'] = True
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
-app.config['WTF_CSRF_ENABLED'] = False]
+app.config['WTF_CSRF_ENABLED'] = False
 
 os.environ['DATABASE_URL'] = "postgresql:///history-lesson-test"
 
