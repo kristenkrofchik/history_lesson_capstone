@@ -2,10 +2,11 @@ import os
 
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-#from werkzeug.exceptions import Unauthorized
 from sqlalchemy import asc
 from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
+
+#use the package below when testing app with insomnia.
 #from flask_wtf.csrf import CSRFProtect
 
 from forms import RegisterForm, LoginForm, AddLessonForm, EditLessonForm, EditUserForm, EditResourceForm, EditPasswordForm
@@ -14,10 +15,11 @@ from models import db, connect_db, Follows, User, Lesson, Resource, serialize_re
 
 app = Flask(__name__)
 CORS(app)
+
+#use the package below when testing app with insomnia
 #csrf = CSRFProtect(app)
 
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "postgres:///history-lesson")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
@@ -135,7 +137,6 @@ def logout_user():
 def show_users():
     """Browse all users"""
     """Have to add authentication so if not that user you can see profile but not edit it"""
-    """add search function for users"""
 
     if 'id' in session:
         user_id = session['id']
@@ -552,29 +553,11 @@ def delete_resource(resource_id):
 
 
 
-"""API ROUTES"""
-
-
-"""
-@app.route("/api/lessons/add", methods=['GET', 'POST'])
-def jsonify_lesson_data():
-    user = User.query.get_or_404(session['id'])
-
-    title = request.json["title"]
-    summary = request.json["summary"]
-    start_date = request.json["start_date"]
-    end_date = request.json["end_date"]
-
-    new_lesson = Lesson(title=title, summary=summary, start_date=start_date, end_date=end_date, user_id=user.id)
-    
-    db.session.add(new_lesson)
-    db.session.commit()
-
-    return redirect(f"/users/{user.id}", user=user)
-"""
+"""API routes"""
 
 
 @app.route("/api/resources", methods=['GET', 'POST'])
+#use the package below when testing app in insomnia
 #@csrf.exempt  
 def add_resource():
     user = User.query.get_or_404(session['id'])
@@ -602,7 +585,9 @@ def add_resource():
         return redirect(f"users/{user.id}/resources.html")
 
 
+
 """Common Error Handling"""
+
 
 @app.errorhandler(400)
 def bad_request(e):
