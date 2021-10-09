@@ -17,8 +17,8 @@ CORS(app)
 #csrf = CSRFProtect(app)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("postgres:///#history-lesson"), "postgres:///flask-heroku")
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///history-lesson"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "postgres:///history-lesson")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'nevertell')
