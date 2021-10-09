@@ -1,5 +1,7 @@
 # History Lesson
 
+[History Lesson](https://history-lesson.herokuapp.com)
+
 History Lesson is a web app built with PostgreSQL, Python and Flask that allows history teachers to plan and schedule lessons with primary resources from the Library of Congress API.
 
 [Library of Congress API](https://www.loc.gov/apis/json-and-yaml/)
