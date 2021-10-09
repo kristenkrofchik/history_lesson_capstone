@@ -154,3 +154,7 @@ a:hover {
     object-fit: cover;
 }
 
+.lesson-link, .resource-link {
+    color: rgba(59, 6, 6, 0.521)
+}
+
