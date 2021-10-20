@@ -379,7 +379,7 @@ def handle_add_lesson_form(user_id):
         title = form.title.data
         summary = form.summary.data
         date = form.add_lesson_date.data.strftime('%Y-%m-%d')
-        resources = form.resources.data
+        resources = form.resources.data0
         
         lesson = Lesson(
             title=title,
@@ -566,12 +566,14 @@ def delete_resource(resource_id):
 
 """API routes"""
 
-
 @app.route("/api/resources", methods=['GET', 'POST'])
 #use the package below when testing app in insomnia
 #@csrf.exempt  
 def add_resource():
-    user = User.query.get_or_404(session['id'])
+
+    user_id = session['id']
+
+    user = User.query.get(user_id)
     resources = Resource.query.all()
 
     if "id" not in session or user.id != session['id']:
