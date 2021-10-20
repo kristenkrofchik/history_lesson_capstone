@@ -47,6 +47,8 @@ $(document).ready(function() {
             url: $(this).attr("data-url")
         })
 
+        console.log(json);
+
         axios.post(`http://127.0.0.1:5000/api/resources`, json)
             .then(response => {
                 console.log(response);
