@@ -159,7 +159,7 @@ def show_user_home(user_id):
         flash('Please login to view.')
         return redirect('/login')
 
-    return render_template('users/home.html', user=user)
+    return render_template('users/profile.html', user=user)
 
 @app.route(f"/users/<int:user_id>/profile")
 def show_user_profile(user_id):
@@ -171,6 +171,17 @@ def show_user_profile(user_id):
         return redirect('/login')
 
     return render_template('users/profile.html', user=user)
+
+@app.route(f"/users/<int:user_id>/calendar")
+def show_user_calendar(user_id):
+    """Show logged in user calendar page"""
+    user = User.query.get(user_id)
+
+    if "id" not in session or user.id != session['id']:
+        flash('Please login to view.')
+        return redirect('/login')
+
+    return render_template('users/calendar.html', user=user)
 
 
 @app.route(f"/users/<int:user_id>/edit", methods=['GET'])
