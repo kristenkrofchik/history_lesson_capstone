@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         console.log(json);
 
-        axios.post(`http://127.0.0.1:5000//users/${$userId}/resources/search`, json)
+        axios.post(`http://127.0.0.1:5000/users/${$userId}/resources/search`, json)
             .then(response => {
                 console.log(response);
             })

@@ -487,6 +487,8 @@ def show_resource_search_page(user_id):
     return render_template("resources/search.html", user=user)
 
 @app.route("/users/<int:user_id>/resources/search", methods=['POST'])
+#use the package below when testing app in insomnia
+#@csrf.exempt  
 def handle_add_resource(user_id):
     """handle resource add form (dynamically created with js)"""
     user = User.query.get_or_404(user_id)
@@ -584,42 +586,6 @@ def delete_resource(resource_id):
     db.session.commit()
 
     return redirect(f"/users/{user.id}/resources")
-
-
-
-"""API routes"""
-
-@app.route("/api/resources", methods=['GET', 'POST'])
-#use the package below when testing app in insomnia
-#@csrf.exempt  
-def add_resource():
-
-    user_id = session['id']
-
-    user = User.query.get(user_id)
-    resources = Resource.query.all()
-
-    if "id" not in session or user.id != session['id']:
-       flash('Please login to view.')
-       return redirect('/login')
-
-
-    if request.method == 'GET':
-        return jsonify(resources)
-    elif request.method == 'POST':
-        data = request.get_json(force=True)
-        id = data['id']
-        title = data["title"]
-        description = data["description"]
-        url = data["url"]
-
-        new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
-    
-        db.session.add(new_resource)
-        db.session.commit()
-
-        return redirect(f"users/{user.id}/resources.html")
-
 
 
 """Common Error Handling"""
