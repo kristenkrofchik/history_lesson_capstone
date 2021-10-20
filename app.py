@@ -479,12 +479,35 @@ def delete_lesson(lesson_id):
 """Resource routes"""
 
 
-@app.route("/resources/search", methods=['GET', 'POST'])
-def show_resource_search_page():
+@app.route("/users/<int:user_id>/resources/search", methods=['GET'])
+def show_resource_search_page(user_id):
     """show resource search form, where js code will show search results from 3rd party API"""
-    user = User.query.get_or_404(session['id'])
+    user = User.query.get_or_404(user_id)
 
     return render_template("resources/search.html", user=user)
+
+@app.route("/users/<int:user_id>/resources/search", methods=['POST'])
+def handle_add_resource(user_id):
+    """handle resource add form (dynamically created with js)"""
+    user = User.query.get_or_404(user_id)
+
+    if "id" not in session or user.id != session['id']:
+       flash('Please login to view.')
+       return redirect('/login')
+    
+    data = request.get_json(force=True)
+    id = data['id']
+    title = data["title"]
+    description = data["description"]
+    url = data["url"]
+
+    new_resource = Resource(id=id, title=title, description=description, url=url, user_id=user.id)
+    
+    db.session.add(new_resource)
+    db.session.commit()
+
+    return redirect(f"users/{user.id}/resources.html", user=user)
+
 
 @app.route(f"/resources/<int:resource_id>")
 def show_single_resource(resource_id):
