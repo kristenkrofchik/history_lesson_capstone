@@ -1,8 +1,8 @@
 
-window.onload = function() {
-    const resourceSearchResults = document.querySelector('#resourceSearchResults');
-    const searchTerm = document.querySelector('#searchTerm');
-    const searchForm = document.querySelector('#searchForm');
+$(document).ready(function() {
+    const $resourceSearchResults = $('#resourceSearchResults');
+    const $searchTerm = $('#searchTerm');
+    const $searchForm = $('#searchForm');
     let userSearchResults = [];
 
 
@@ -20,10 +20,9 @@ window.onload = function() {
     }
 
     //grabs the user's search on submit of the search button. passes it to the searchLibrary function above.
-    searchForm.addEventListener("submit", async function(ev) {
+    $searchForm.on("submit", async function(ev) {
         ev.preventDefault();
-
-        let searchInput = searchTerm.value;
+        let searchInput = $searchTerm.val();
         searchLibrary(searchInput);
     });
 
@@ -31,47 +30,42 @@ window.onload = function() {
     function addItems(results) {
 
         for(let item of results) {
-            itemDisplay = document.createElement('li');
-            
-            itemDisplay.innerHTML = `<form method="POST" action="/api/resources"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><button class="btn btn-secondary btn-sm m-1y addResource" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}">Add Resource</button></form>`
+            let itemDisplay = `<li><form method="POST" action="/api/resources"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><button class="btn btn-secondary btn-sm m-1y addResource" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}">Add Resource</button></form></li>`;
      
-            resourceSearchResults.appendChild(itemDisplay);
+            $resourceSearchResults.append(itemDisplay);
         }
     }
 
     //this function adds a resource to the user's resource list on click of 'Add Resource' button
     //makes a post request to the Python API to add resource to database
-    document.addEventListener('click', function(event) {
-        if(event.target.innerText === 'Add Resource') {
+    $('body').on('click', 'button.addResource', function() {
         
-            let json = JSON.stringify({
-                id: this.dataset.id,
-                title: this.dataset.title,
-                description: this.datset.description,
-                url: this.dataset.url
-            })
+        let json = JSON.stringify({
+            id: $(this).attr("data-id"),
+            title: $(this).attr("data-title"),
+            description: $(this).attr("data-description"),
+            url: $(this).attr("data-url")
+        })
 
-            axios.post(`http://127.0.0.1:5000/api/resources`, json, {headers: {"content-type": "application/json"},
+        axios.post(`http://127.0.0.1:5000/api/resources`, json)
+            .then(response => {
+                console.log(response);
             })
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            }
+            .catch(error => {
+                console.log(error);
+            });
         });
-}
+});
 
 //when lesson is submitted, add date to localstorage so we can use it in calendar.js to change calendar html
 
-const newLessonForm = document.querySelector(".new-lesson-form")
+const $newLessonForm = $(".new-lesson-form");
 
-newLessonForm.addEventListener('submit', function() {
-    let lessonDate = document.getElementById("add_lesson_date").value;
+$newLessonForm.on('submit', function() {
+    let $lessonDate = $("#add_lesson_date").val();
     let events = [];
     events.push({
-        date: lessonDate
+        date: $lessonDate
     });
     localStorage.setItem('events', JSON.stringify(events));
 });
