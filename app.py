@@ -264,7 +264,7 @@ def show_user_lessons(user_id):
 
 @app.route(f"/users/<int:user_id>/resources")
 def show_user_resources(user_id):
-    """Show a list of user resourcess. page is only accessible to the logged in user."""
+    """Show a list of user resources. page is only accessible to the logged in user."""
 
     user = User.query.get(user_id)
 
@@ -484,6 +484,10 @@ def show_resource_search_page(user_id):
     """show resource search form, where js code will show search results from 3rd party API"""
     user = User.query.get_or_404(user_id)
 
+    if "id" not in session or user.id != session['id']:
+        flash('Please login to view.')
+        return redirect('/login')
+
     return render_template("resources/search.html", user=user)
 
 @app.route("/users/<int:user_id>/resources/search", methods=['POST'])
@@ -508,7 +512,7 @@ def handle_add_resource(user_id):
     db.session.add(new_resource)
     db.session.commit()
 
-    return redirect(f"users/{user.id}/resources.html", user=user)
+    return redirect(f"users/{user.id}/resources")
 
 
 @app.route(f"/resources/<int:resource_id>")

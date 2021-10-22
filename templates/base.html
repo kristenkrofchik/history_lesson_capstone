@@ -19,7 +19,7 @@
         <li class="nav-item">
           {% if 'id' in session %}
           <a class="nav-link d-inline-block" href="/logout">Logout</a>
-          <a class="nav-link d-inline-block" href="/users/{{ user.id }}/profile">Your Profile</a>
+          <a class="nav-link d-inline-block" href="/users/{{ session['id'] }}/profile">Your Profile</a>
           {% else %}
           <a class="nav-link d-inline-block" href="/login">Login</a>
           {% endif %}
