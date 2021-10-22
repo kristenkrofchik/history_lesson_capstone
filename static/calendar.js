@@ -1,5 +1,4 @@
 //this code creates a vanilla js calendar and adds it to the user's home page.
-console.log(localStorage);
 const date = new Date();
 
 const renderCalendar = () => {
@@ -59,12 +58,12 @@ const renderCalendar = () => {
 }
 
 
-document.querySelector('.prev').addEventListener('click', () => {
+$('.prev').on('click', () => {
     date.setMonth(date.getMonth() - 1);
     renderCalendar();
 })
 
-document.querySelector('.next').addEventListener('click', () => {
+$('.next').on('click', () => {
     date.setMonth(date.getMonth() + 1);
     renderCalendar();
 })
