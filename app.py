@@ -379,7 +379,7 @@ def handle_add_lesson_form(user_id):
         title = form.title.data
         summary = form.summary.data
         date = form.add_lesson_date.data.strftime('%Y-%m-%d')
-        resources = form.resources.data0
+        resources = form.resources.data
         
         lesson = Lesson(
             title=title,
@@ -495,7 +495,7 @@ def show_resource_search_page(user_id):
 #@csrf.exempt  
 def handle_add_resource(user_id):
     """handle resource add form (dynamically created with js)"""
-    user = User.query.get_or_404(user_id)
+    user = User.query.get(user_id);
 
     if "id" not in session or user.id != session['id']:
        flash('Please login to view.')
@@ -512,26 +512,26 @@ def handle_add_resource(user_id):
     db.session.add(new_resource)
     db.session.commit()
 
-    return redirect(f"users/{user.id}/resources")
+    return redirect(f"/users/{user.id}/resources")
 
 
-@app.route(f"/resources/<int:resource_id>")
-def show_single_resource(resource_id):
+@app.route(f"/resources/<int:resource_numerical_id>")
+def show_single_resource(resource_numerical_id):
     """Show information about a single resource"""
     
     if "id" not in session:
         flash('Please login to view.')
         return redirect('/login')
 
-    resource = Resource.query.get(resource_id)
+    resource = Resource.query.get(resource_numerical_id)
     user = User.query.get(resource.user_id)
 
     return render_template('/resources/detail.html', resource=resource, user=user)
 
-@app.route("/resources/<resource_id>/edit", methods=["GET"])
-def show_edit_resource_form(resource_id):
+@app.route("/resources/<int:resource_numerical_id>/edit", methods=["GET"])
+def show_edit_resource_form(resource_numerical_id):
     """Show resource edit form"""
-    resource = Resource.query.get(resource_id)
+    resource = Resource.query.get(resource_numerical_id)
     user = User.query.get(resource.user_id)
 
     if "id" not in session or user.id != session['id']:
@@ -546,10 +546,10 @@ def show_edit_resource_form(resource_id):
 
     return render_template('/resources/edit.html', resource=resource, form=form, user=user)
 
-@app.route(f"/resources/<resource_id>/edit", methods=['POST'])
-def handle_edit_resource_form(resource_id):
+@app.route(f"/resources/<int:resource_numerical_id>/edit", methods=['POST'])
+def handle_edit_resource_form(resource_numerical_id):
     """Handle submit of form to edit a resource, redirect to the main page for resources"""
-    resource = Resource.query.get(resource_id)
+    resource = Resource.query.get(resource_numerical_id)
     user = User.query.get(resource.user_id)
 
     if "id" not in session or user.id != session['id']:
@@ -571,16 +571,16 @@ def handle_edit_resource_form(resource_id):
 
         db.session.commit()
 
-        return redirect(f"/resources/{resource.id}")
+        return redirect(f"/resources/{resource.numerical_id}")
 
     return render_template("resources/edit.html", form=form, resource=resource, user=user)
 
-@app.route(f"/resources/<resource_id>/delete", methods=['POST'])
-def delete_resource(resource_id):
+@app.route(f"/resources/<int:resource_numerical_id>/delete", methods=['POST'])
+def delete_resource(resource_numerical_id):
     """Delete individual lesson."""
 
-    resource = Resource.query.get(resource_id)
-    user = User.query.get(resource.user_id)
+    resource = Resource.query.get(resource_numerical_id)
+    user = User.query.get(session['id']);
     
     if "id" not in session or user.id != session['id']:
         flash('Please login to view.')

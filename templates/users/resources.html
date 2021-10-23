@@ -17,18 +17,18 @@
 <div class="col-sm-6">
     <ul class="list-group" id="resources">
         {% for resource in resources %}
-        <li class="list-group-item"><a href="/resources/{{ resource.id }}" class="resource-link"/>
+        <li class="list-group-item"><a href="/resources/{{ resource.numerical_id }}" class="resource-link"/>
             <h3>{{resource.title}}</h3>
                 <ul>
                     <li>{{resource.description}}</li>
                     <li>{{resource.url}}</li>
                 </ul>
                 <p>
-                    <a href="/resources/{{ resource.id }}/edit" class="btn btn-secondary btn-sm m-1">
+                    <a href="/resources/{{ resource.numerical_id }}/edit" class="btn btn-secondary btn-sm m-1">
                       Edit Resource
                     </a>
                 </p>
-                <form method="POST" action="/resources/{{ resource.id }}/delete">
+                <form method="POST" action="/resources/{{ resource.numerical_id }}/delete">
                     <button class="btn btn-secondary btn-sm m-1">Delete</button>
                 </form>
         </li>
@@ -38,7 +38,7 @@
 
 {% if session['id'] == user.id %}
 <p> 
-    <a href=/resources/search"" class="btn btn-secondary btn-sm m-1">
+    <a href="/users/{{ user.id }}/resources/search" class="btn btn-secondary btn-sm m-1">
       Search Resources
     </a>
   </p>

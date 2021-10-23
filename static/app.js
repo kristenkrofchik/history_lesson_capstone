@@ -31,7 +31,7 @@ $(document).ready(function() {
     function addItems(results) {
 
         for(let item of results) {
-            let itemDisplay = `<li><form method="POST" action="http://127.0.0.1:5000/users/${$userId}/resources/search"><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><button class="btn btn-secondary btn-sm m-1y addResource" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}">Add Resource</button></form></li>`;
+            let itemDisplay = `<li><a data-id="${item.id}" class="resourceLink" href="${item.url}">${item.title}, ${item.description}, ${item.date}</a><button class="btn btn-secondary btn-sm m-1y addResource" data-id="${item.id}" data-title="${item.title}" data-description="${item.description}" data-url="${item.url}">Add Resource</button></li>`;
      
             $resourceSearchResults.append(itemDisplay);
         }
@@ -48,10 +48,10 @@ $(document).ready(function() {
             url: $(this).attr("data-url")
         })
 
-        console.log(json);
 
         axios.post(`http://127.0.0.1:5000/users/${$userId}/resources/search`, json)
             .then(response => {
+                window.location = `http://127.0.0.1:5000/users/${$userId}/resources`;
                 console.log(response);
             })
             .catch(error => {

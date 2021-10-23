@@ -11,17 +11,19 @@
     <h1>{{ resource.title }}</h1>
 
     <p> 
-      {{ <resource class="description"></resource> }}
+      {{ resource.description }}
     </p>
+
+    <a href="{{ resource.url }}">Link to Resource</a>
 
     {% if session['id'] == user.id %}
     <p>
-        <a href="/resources/{{ resource.id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
+        <a href="/resources/{{ resource.numerical_id }}/edit" class="btn btn-secondary btn-sm m-1" methods=>
           Edit Resource
         </a>
     </p>
     
-    <form method="POST" action="/resources/{{ resource.id }}/delete">
+    <form method="POST" action="/resources/{{ resource.numerical_id }}/delete">
         <button class="btn btn-secondary btn-sm m-1">Delete Resource</button>
     </form>
 
