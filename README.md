@@ -18,7 +18,7 @@ Version 1 of this project was deployed in October, 2021.
 3. Run pip install to install dependencies:
 
 ```bash
-$ pip install
+$ pip install -e git+https://github.com/kristenkrofchik/history_lesson_capstone#egg=history_lesson
 ```
 
 4. Run PostgreSQL and create a history-lesson database on your local machine (you will need to install PostgreSQL if you do not have it to properly install this application):
