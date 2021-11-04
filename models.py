@@ -187,7 +187,7 @@ class UserResource(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     
-    resource_id = db.Column(db.Text, db.ForeignKey('resources.id'), primary_key=True)
+    resource_id = db.Column(db.Integer, db.ForeignKey('resources.numerical_id'), primary_key=True)
 
 def serialize_user(user):
         """Serialize a dessert SQLAlchemy obj to dictionary."""
