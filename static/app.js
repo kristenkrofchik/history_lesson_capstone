@@ -47,26 +47,15 @@ $(document).ready(function() {
             url: $(this).attr("data-url")
         })
 
-        if(window.location.href.includes('https://history-lesson.herokuapp.com/')) {
-            axios.post(`https://history-lesson.herokuapp.com/users/${$userId}/resources/search`, json)
-                .then(response => {
-                    window.location = `https://history-lesson.herokuapp.com/users/${$userId}/resources`;
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        } else {
-            axios.post(`http://127.0.0.1:5000/users/${$userId}/resources/search`, json)
-                .then(response => {
-                    window.location = `http://127.0.0.1:5000/users/${$userId}/resources`;
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            };
-        });
+        axios.post(`/users/${$userId}/resources/search`, json)
+            .then(response => {
+                window.location = `/users/${$userId}/resources`;
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    });
 });
 
 //when lesson is submitted, add date to localstorage so we can use it in calendar.js to change calendar html
