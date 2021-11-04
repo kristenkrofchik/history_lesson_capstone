@@ -178,7 +178,7 @@ class LessonResource(db.Model):
 
     lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), primary_key=True)
     
-    resource_id = db.Column(db.Text, db.ForeignKey('resources.numerical_id'), primary_key=True)
+    resource_id = db.Column(db.Integer, db.ForeignKey('resources.numerical_id'), primary_key=True)
 
 class UserResource(db.Model):
     """Ties Between a user and its resources"""
