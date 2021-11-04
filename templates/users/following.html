@@ -12,7 +12,7 @@
           <div class="card user-card">
             <div class="card-inner">
               <div class="card-contents">
-                <a href="/users/{{ followed_user.id }}" class="card-link">
+                <a href="/users/{{ followed_user.id }}" class="card-link user-link">
                   <p>@{{ followed_user.username }}</p>
                 </a>
                 {% if user.is_following(followed_user) %}
