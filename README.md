@@ -20,7 +20,14 @@ Version 1 of this project was deployed in October, 2021.
 ```bash
 $ pip install
 ```
-4. Run flask run to start the application:
+
+4. Run PostgreSQL and create a history-lesson database on your local machine (you will need to install PostgreSQL if you do not have it to properly install this application):
+
+```bash
+$ createdb history-lesson
+```
+
+6.. Run flask run to start the application:
 
 ```bash
 $ flask run
