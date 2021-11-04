@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     const $resourceSearchResults = $('#resourceSearchResults');
     const $searchTerm = $('#searchTerm');
@@ -48,15 +47,25 @@ $(document).ready(function() {
             url: $(this).attr("data-url")
         })
 
-
-        axios.post(`http://127.0.0.1:5000/users/${$userId}/resources/search`, json)
-            .then(response => {
-                window.location = `http://127.0.0.1:5000/users/${$userId}/resources`;
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        if(window.location.href.includes('https://history-lesson.herokuapp.com/')) {
+            axios.post(`https://history-lesson.herokuapp.com/users/${$userId}/resources/search`, json)
+                .then(response => {
+                    window.location = `https://history-lesson.herokuapp.com/users/${$userId}/resources`;
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            axios.post(`http://127.0.0.1:5000/users/${$userId}/resources/search`, json)
+                .then(response => {
+                    window.location = `http://127.0.0.1:5000/users/${$userId}/resources`;
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            };
         });
 });
 
