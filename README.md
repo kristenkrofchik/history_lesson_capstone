@@ -9,7 +9,7 @@ History Lesson is a web app built with PostgreSQL, Python and Flask that allows 
 The Library of Congress API provides a means to retrieve data about Library of Congress collections in JSON format. The Library of Congress is the nation's oldest federal cultural institution and the de facto national library of the United States. Data is available for several collections including newspapers, books, archived websites, photos, and videos. The API is accessible to the public with no API key or authentication required. 
 
 ### Status
-This project is still in process. Version 1 will be deployed in October, 2021. 
+Version 1 of this project was deployed in October, 2021. 
 
 ### Installation
 
